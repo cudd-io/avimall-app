@@ -1,12 +1,8 @@
-<script context="module" lang="ts">
-  export type NavLink = {
-    name: string;
-    href: string;
-  };
-</script>
-
 <script lang="ts">
-  export let navLinks: NavLink[] = [];
+  import type { MenuItem } from '$lib/types';
+  import Icon from '@iconify/svelte';
+
+  export let navLinks: MenuItem[] = [];
 </script>
 
 <!-- Settings Sidebar -->
@@ -15,18 +11,28 @@
   class="
     list-nav
     px-4 py-4
-    flex flex-col h-full w-40
+    flex flex-col h-full
     text-center
     text-lg
-
-    rounded-tr-container-token
-    rounded-br-container-token
+    bg-surface-100-800-token
   "
 >
-  <ul class="h-full flex flex-col">
+  <ul class="h-full flex flex-col text-xl text-left">
     {#each navLinks as link}
       <li class="w-full">
-        <a class="w-full text-center flex flex-row justify-center" href={link.href}>{link.name}</a>
+        <a class="w-full" href={link.href}>
+          {#if link.icon}
+            <span class="">
+              {#if typeof link.icon === 'string'}
+                <Icon icon={link.icon} class="text-4xl" />
+              {:else}
+                <svelte:component this={link.icon} />
+              {/if}
+            </span>
+          {/if}
+          <span class="flex-auto">{link.name}</span>
+          <!-- {link.name} -->
+        </a>
       </li>
     {/each}
   </ul>

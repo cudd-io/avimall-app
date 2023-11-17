@@ -3,7 +3,7 @@
 <script lang="ts">
 </script>
 
-<h3 class="h2 text-center m-10">My Settings</h3>
+<h3 class="h2 text-center m-10">General Settings</h3>
 
 <section class="m-10 text-lg content">
   <p>
@@ -11,6 +11,7 @@
     suscipit iste mollitia dignissimos, optio quidem odio maxime quis magnam ipsum corrupti nemo
     incidunt quod porro adipisci perferendis?
   </p>
+
   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta similique eligendi inventore</p>
 
   <p>

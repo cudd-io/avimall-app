@@ -7,6 +7,7 @@ export const load = async ({ locals }) => {
     throw redirect(303, '/my/settings');
   }
 };
+
 export const actions: Actions = {
   register: async ({ locals, request }) => {
     const body = Object.fromEntries(await request.formData());

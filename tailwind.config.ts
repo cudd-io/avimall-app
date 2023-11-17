@@ -19,6 +19,7 @@ export default {
     skeleton({
       themes: {
         custom: [sapphireNebula],
+        preset: ['skeleton', 'modern', 'crimson'],
       },
     }),
   ],
