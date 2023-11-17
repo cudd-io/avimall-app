@@ -1,6 +1,15 @@
 {
   "name": "avimall-app",
   "version": "0.0.1",
+  "author": {
+    "name": "Erika Cudd",
+    "url": "https://cudd.io"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cudd-io/avimall-app.git"
+  },
   "private": true,
   "scripts": {
     "dev": "vite dev",
