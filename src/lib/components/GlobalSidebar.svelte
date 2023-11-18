@@ -1,18 +1,25 @@
+<!--
+@component
+
+Renders a global sidebar that can be toggled open and closed
+
+- Props:
+  - `target` (string): The CSS selector of the target element where the sidebar will be rendered
+  - `rootPath` (string): The root path of the layout component. The sidebar will open when navigating away from this path and close when navigating back to it.
+-->
+
 <script lang="ts">
   import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { onMount } from 'svelte';
   import Portal from './Portal.svelte';
 
-  // import { portal } from 'svelte-portal/src/Portal.svelte';
-  // import { Portal } from '@svelteuidev/core';
   import { slide, fly } from 'svelte/transition';
   import { sidebarOpen } from '$lib/stores/sidebar';
 
   export let target: string = '#sidebar-left';
+
   export let rootPath: string = '/mall';
 
-  // $sidebarOpen = true;
-  // let key: any = {};
   onMount(() => {
     $sidebarOpen = true;
   });
@@ -21,7 +28,6 @@
     // Navigate from anything else to rootPath: open the sidebar
     if (!from) return;
     if (from.url.pathname.startsWith(rootPath)) return;
-    console.log({ from });
     $sidebarOpen = true;
   });
 
@@ -29,12 +35,7 @@
     // Navigate from rootPath to anything else: close the sidebar
     if (!to) return;
     if (to.url.pathname.startsWith(rootPath)) return;
-    console.log({ to });
     $sidebarOpen = false;
-    // key = to.route.id;
-    // console.log({ $sidebarOpen });
-
-    // cancel();
   });
 </script>
 

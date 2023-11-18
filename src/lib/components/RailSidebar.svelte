@@ -1,3 +1,26 @@
+<!--
+@component
+
+Renders a menu with clickable links and optional icons.
+
+- Props:
+  - `navLinks` (MenuItem[]): An array of menu items to be rendered. Each menu item should have the following properties:
+    - `name` (string): The name or label of the menu item.
+    - `href` (string): The URL to navigate to when the menu item is clicked.
+    - `icon` (string | Component): Optional. The icon to be displayed alongside the menu item. Can be a string representing an icon name or a Svelte component.
+
+- Usage:
+  ```tsx
+  <Menu
+    navLinks={[
+      { name: 'Settings', href: '/settings', icon: 'mdi:cog' },
+      { name: 'Profile', href: '/profile', icon: 'mdi:user' },
+      { name: 'Security', href: '/security', icon: 'mdi:lock' },
+      { name: 'Logout', href: '/auth/logout', icon: 'mdi:logout' },
+    ]}
+  />
+  ```
+-->
 <script lang="ts">
   import Icon from '@iconify/svelte';
   import type { MenuItem } from '$lib/types';

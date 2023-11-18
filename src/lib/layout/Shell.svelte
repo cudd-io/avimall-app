@@ -15,13 +15,12 @@
 
   <svelte:fragment slot="sidebarLeft">
     <!-- A hidden placeholder so the slot renders -->
-    <div id="sidebar-placeholder" class="hidden"></div>
+    <div id="sidebar-placeholder" class="hidden" role="presentation"></div>
   </svelte:fragment>
 
   <slot />
 
   <svelte:fragment slot="pageFooter">
     <Footer />
-    <!-- <div class="footer bg-green-500 min-h-4">footefffr</div> -->
   </svelte:fragment>
 </AppShell>

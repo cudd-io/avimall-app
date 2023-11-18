@@ -25,7 +25,6 @@
 
   $: typeAttributeAsInputType = type as InputTypeAttribute;
   $: typeAttributeAsButtonType = type as ButtonTypeAttribute;
-  $: typeAttributeAsAny = type as any;
 
   $: elementType = getFormElementType(type);
 
@@ -125,67 +124,16 @@
       {/if}
     {/if}
 
-    <!-- {#if $$slots.trail} -->
-    <!-- <label for={name} class="{defaultStyles.label} {labelClass}" {...labelAttributes}> -->
-    <!-- <slot name="trail" /> -->
-    <!-- </label> -->
-    <!-- {/if} -->
-
     {#if error}
       <span
         transition:fade|local={{ duration: 200 }}
-        class="text-error-500-400-token text-center w-full flex flex-col"
+        class="text-error text-center w-full flex flex-col"
       >
         {error}
       </span>
     {/if}
   {/if}
 </div>
-<!-- OLD: -->
-
-<!-- {#if elementType !== 'button'}
-  <label for={name} class="{defaultStyles.label} {labelClass}" {...labelAttributes}>
-    {#if $$slots.lead}
-      <slot name="lead" />
-    {:else if labelText && !$$slots.trail}
-      <span class={defaultStyles.labelSpan}>{labelText}</span>
-    {/if}
-    {#if elementType === 'input'}
-      <input
-        id={name}
-        {name}
-        on:input={onStartTyping}
-        type={typeAttributeAsInputType}
-        class="{defaultStyles[elementType]} {defaultStyles[type]} {classes}"
-        class:input-error={!!error}
-        {...$$restProps}
-      />
-    {:else if elementType === 'textarea'}
-      <textarea
-        id={name}
-        {name}
-        class="{defaultStyles[elementType]} {classes}"
-        class:input-error={!!error}
-        {...$$restProps}
-      />
-    {/if}
-    {#if $$slots.default}
-      <slot />
-    {/if}
-
-    {#if $$slots.trail}
-      <slot name="trail" />
-    {/if}
-    {#if error}
-      <span
-        transition:fade|local={{ duration: 200 }}
-        class="text-error-500-400-token text-center w-full flex flex-col"
-      >
-        {error}
-      </span>
-    {/if}
-  </label>
-{/if} -->
 
 {#if elementType === 'button'}
   {#if $$slots.lead}
@@ -205,6 +153,6 @@
     <slot name="trail" />
   {/if}
   {#if error}
-    <span transition:fade|local={{ duration: 200 }} class=" text-error-50-900-token">{error}</span>
+    <span transition:fade|local={{ duration: 200 }} class="text-error">{error}</span>
   {/if}
 {/if}
