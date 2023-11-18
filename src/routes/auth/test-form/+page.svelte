@@ -55,9 +55,3 @@
 
   <CodeBlock code={JSON.stringify({ form }, null, 2)} language="json"></CodeBlock>
 </Container>
-
-<style lang="postcss">
-  a {
-    @apply anchor;
-  }
-</style>

@@ -4,21 +4,13 @@
 @tailwind variants;
 
 :root {
-  --translucent-bg-light: rgba(255, 255, 255, 0.3);
-  --translucent-bg-dark: rgba(0, 0, 0, 0.3);
-
-  --translucent-bg: var(--translucent-bg-light);
 }
 
-html.dark {
-  --translucent-bg: var(--translucent-bg-dark);
-}
 html,
 body {
   @apply h-full overflow-hidden;
 }
 body {
-  @apply bg-gradient-to-br variant-gradient-secondary-primary;
 }
 
 .bg-translucent-blur {

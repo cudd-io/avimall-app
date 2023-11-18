@@ -1,30 +1,27 @@
 <script lang="ts">
-  import { writable } from 'svelte/store';
+  import { fade, fly } from 'svelte/transition';
   import { Footer, Header } from '$lib/layout';
   import { AppShell } from '@skeletonlabs/skeleton';
-  import type { ComponentType, SvelteComponent } from 'svelte';
+  import { sidebarOpen } from '$lib/stores/sidebar';
+  import { page } from '$app/stores';
 
-  import { currentSidebar } from '$lib/stores/sidebar';
   export let data: any;
-
-  // export let sidebarComponent: ComponentType<SvelteComponent> | null = null;
 </script>
 
-<!-- App Shell -->
 <AppShell>
-  <svelte:fragment slot="header">
+  <div slot="header">
     <Header {data}></Header>
-  </svelte:fragment>
+  </div>
 
   <svelte:fragment slot="sidebarLeft">
-    {#if $currentSidebar}
-      <svelte:component this={$currentSidebar.component} {...$currentSidebar.props} />
-    {/if}
+    <!-- A hidden placeholder so the slot renders -->
+    <div id="sidebar-placeholder" class="hidden"></div>
   </svelte:fragment>
 
   <slot />
 
   <svelte:fragment slot="pageFooter">
     <Footer />
+    <!-- <div class="footer bg-green-500 min-h-4">footefffr</div> -->
   </svelte:fragment>
 </AppShell>

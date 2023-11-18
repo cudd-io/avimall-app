@@ -12,7 +12,7 @@
 
 <Container main card>
   <div class="text-center mb-10">
-    <h2 class="h2">Login to your account</h2>
+    <h2 class="text-4xl">Login to your account</h2>
     <p class="text-sm my-2">
       Or <a href="/auth/register">register</a> if you don't have an account
     </p>
@@ -34,22 +34,29 @@
         type="checkbox"
         labelClass="label cursor-pointer"
         class="checkbox"
+        inline
+        hideLabel
       >
-        <span slot="trail" class="label-text">Remember this device</span>
+        <label for="remember" class="label">
+          <input type="checkbox" id="remember" class="checkbox" name="termsOfService" />
+          <span class="label-text ml-1"> Remember this device </span>
+        </label>
       </FormElement>
-      <a href="/auth/forgot-password">Forgot Password</a>
+      <a href="/auth/forgot-password" class="label text-sm break-keep whitespace-nowrap text"
+        >Forgot Password</a
+      >
     </div>
-    <button slot="trail" class="btn variant-filled-primary w-full">Login</button>
+    <button slot="trail" class="btn btn-primary w-full">Login</button>
   </Form>
 
   <HR>or</HR>
   <!-- Sign in with Google or Discord -->
-  <button class="btn variant-filled-secondary w-full my-2">Sign in with Google</button>
-  <button class="btn variant-filled-secondary w-full my-2">Sign in with Discord</button>
+  <button class="btn btn-secondary w-full my-2">Sign in with Google</button>
+  <button class="btn btn-secondary w-full my-2">Sign in with Discord</button>
 </Container>
 
 <style lang="postcss">
   a {
-    @apply anchor;
+    @apply link link-info;
   }
 </style>

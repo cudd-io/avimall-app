@@ -1,26 +1,13 @@
-import { join } from 'path';
 import type { Config } from 'tailwindcss';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
-import { skeleton } from '@skeletonlabs/tw-plugin';
-import { sapphireNebula } from './src/lib/themes/sapphireNebula';
+import daisyui from 'daisyui';
+
 export default {
   darkMode: 'class',
-  content: [
-    './src/**/*.{html,js,svelte,ts}',
-    join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}'),
-  ],
+  content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {},
   },
-  plugins: [
-    forms,
-    typography,
-    skeleton({
-      themes: {
-        custom: [sapphireNebula],
-        preset: ['skeleton', 'modern', 'crimson'],
-      },
-    }),
-  ],
+  plugins: [forms, typography, daisyui],
 } satisfies Config;

@@ -1,9 +1,8 @@
 <script lang="ts">
   import type { MenuItem } from '$lib/types';
-  import { SlideToggle } from '@skeletonlabs/skeleton';
+  // import { SlideToggle } from '@skeletonlabs/skeleton';
 
   export let data: any;
-  export let debug = false;
 
   const userMenu: MenuItem[] = [
     {
@@ -20,37 +19,42 @@
     },
   ];
 
-  export let dataPopup: string = 'userPopup';
+  // export let dataPopup: string = 'userPopup';
 </script>
 
 <!-- User popup menu -->
 
-<div class="card p-4 w-72 shadow-xl" data-popup={dataPopup}>
-  <div class="arrow bg-surface-100-800-token" />
-  <ul class="p-2 list-nav">
-    {#if !data.user.verified}
-      <li>
-        <span
-          class="p-2 text-sm rounded-container-token variant-filled-warning text-center w-full max-w-full min-w-full whitespace-nowrap mb-2"
-        >
-          Please check email to verify account
-        </span>
-      </li>
-    {/if}
-
-    {#each userMenu as link}
-      <li>
-        <a href={link.href} class={link.classes}>{link.name}</a>
-      </li>
-    {/each}
-
-    <li class="w-full">
-      <label class="m-4 w-full flex flex-row justify-between" for="debug">
-        <span>Debug</span>
-        <SlideToggle bind:checked={debug} name="debug" />
-      </label>
-    </li>
-  </ul>
+<div class="flex-none gap-2">
+  <div class="dropdown dropdown-end">
+    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+    <!-- svelte-ignore a11y-label-has-associated-control -->
+    <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+      <div class="w-10 rounded-full">
+        <!-- placewaifu placeholder -->
+        <img alt="User Avatar" src=" https://placewaifu.com/image/64" />
+      </div>
+    </label>
+    <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+    <ul
+      tabindex="0"
+      class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+    >
+      {#if !data.user.verified}
+        <li>
+          <span
+            class="p-2 text-sm variant-filled-warning text-center w-full max-w-full min-w-full whitespace-nowrap mb-2"
+          >
+            Please check email to verify account
+          </span>
+        </li>
+      {/if}
+      {#each userMenu as link}
+        <li>
+          <a href={link.href} class={link.classes}>{link.name}</a>
+        </li>
+      {/each}
+    </ul>
+  </div>
 </div>
 
 <style lang="postcss">
