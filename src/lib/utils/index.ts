@@ -1,6 +1,8 @@
 import cheerio from 'cheerio';
 import axios from 'axios';
 
+export * from './string';
+
 export const serializeNonPOJOs = (obj: any) => {
   return structuredClone(obj);
 };

@@ -1,6 +1,7 @@
+import type { BoothItem } from '$lib/types';
 import { cheerioFromURL, translateToEnglish } from '$lib/utils';
 
-export const scrapeBoothItems = async (itemId: string, translate = true) => {
+export const scrapeBoothItems = async (itemId: string, translate = true): Promise<BoothItem> => {
   const url = `https://booth.pm/en/items/${itemId}`;
 
   const $ = await cheerioFromURL(url);
@@ -9,10 +10,6 @@ export const scrapeBoothItems = async (itemId: string, translate = true) => {
   const category = getData(items, 'product-category');
   const brand = getData(items, 'product-brand');
   const priceJPY = getData(items, 'product-price');
-
-  // images
-  // const slider = $('.primary-image-area > .slick-slide > .slick-track');
-  // const images = slider.children('img');
 
   const originalDescription = $('meta[property="og:description"]').attr('content') || '';
   let description = originalDescription;
@@ -28,21 +25,21 @@ export const scrapeBoothItems = async (itemId: string, translate = true) => {
     title = await translateToEnglish(originalTitle);
   }
 
-  const data = {
+  return {
+    itemId,
     title,
-    originalTitle,
+    // originalTitle,
     description,
-    originalDescription,
-    mainImage: $('meta[property="og:image"]').attr('content'),
+    // originalDescription,
+    mainImage: $('meta[property="og:image"]').attr('content') || '',
     category,
     brand,
     priceJPY,
   };
-
-  return data;
 };
 
-const getData = (cheerioItem: cheerio.Cheerio, key: string) => cheerioItem.attr(`data-${key}`);
+const getData = (cheerioItem: cheerio.Cheerio, key: string): string =>
+  cheerioItem.attr(`data-${key}`) || '';
 
 // Items div from booth: `
 // <div

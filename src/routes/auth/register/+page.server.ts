@@ -1,5 +1,4 @@
 import { redirect, type Actions } from '@sveltejs/kit';
-import { register } from 'module';
 
 export const load = async ({ locals }) => {
   console.log('locals', locals);
@@ -31,9 +30,12 @@ export const actions: Actions = {
         message: 'You must agree to the terms of service',
         code: 'tos_not_accepted',
       };
+
+      const { password, comfirmPassword, ...rest } = body;
       return {
         success: false,
         error: { ...err.data, termsOfService: err.message === 'TOS' ? tosError : undefined },
+        body: rest,
       };
     }
 
