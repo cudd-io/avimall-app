@@ -3,3 +3,5 @@ export { default as Container } from './Container.svelte';
 export { default as Alert } from './Alert.svelte';
 export { default as Form } from './Form.svelte';
 export { default as FormElement } from './FormElement.svelte';
+export { default as RailSidebar } from './RailSidebar.svelte';
+export { default as GlobalSidebar } from './GlobalSidebar.svelte';

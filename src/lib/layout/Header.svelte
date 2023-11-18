@@ -31,10 +31,41 @@
 
   const loggedInMenuBar: MenuItem[] = [
     // Nothing here yet, but keeping it in case I want to add some
+    {
+      name: 'Shop',
+      href: '/mall',
+    },
   ];
 </script>
 
-<AppBar>
+<div class="navbar bg-base-200">
+  <div class="flex-1">
+    <a class="btn text-xl btn-ghost" href="/">Avatar Mall</a>
+  </div>
+  <!-- <div class="form-control flex-1 m-4">
+    <input type="text" placeholder="Search" class="input input-bordered w-full" />
+  </div> -->
+  <!-- Logged out items -->
+
+  <div class="flex-none gap-2">
+    {#if !data.user}
+      <!-- <a href="/auth/login" class="btn btn-ghost">Login</a> -->
+      {#each loggedOutMenuBar as item}
+        <a href={item.href} class="btn btn-ghost">{item.name}</a>
+      {/each}
+    {:else}
+      {#each loggedInMenuBar as item}
+        <a href={item.href} class="btn btn-ghost">{item.name}</a>
+      {/each}
+    {/if}
+  </div>
+
+  {#if data.user}
+    <UserMenu {data} />
+  {/if}
+</div>
+
+<!-- <AppBar>
   <svelte:fragment slot="lead">
     <a href="/" class="text-xl uppercase">Avatar Mall</a>
   </svelte:fragment>
@@ -63,4 +94,4 @@
       <UserMenu {data} {debug} />
     {/if}
   </svelte:fragment>
-</AppBar>
+</AppBar> -->

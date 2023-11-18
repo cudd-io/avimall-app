@@ -16,7 +16,7 @@
 
 <Container main card>
   <div class="text-center mb-10">
-    <h2 class="h2">Create an account</h2>
+    <h2 class="text-4xl">Create an account</h2>
     <p class="text-sm my-2">Or <a href="/auth/login">login</a> if you already have an account</p>
   </div>
 
@@ -27,7 +27,6 @@
       placeholder="Choose a username..."
       value={form?.body.username}
       error={errors?.username?.message}
-      on:clear={() => clearError('username')}
       required
     />
     <FormElement
@@ -36,7 +35,6 @@
       placeholder="Enter email address..."
       value={form?.body.email}
       error={errors?.email?.message}
-      on:clear={() => clearError('email')}
       required
     />
 
@@ -45,7 +43,6 @@
       type="password"
       placeholder="Enter password..."
       error={errors?.password?.message}
-      on:clear={() => clearError('password')}
       required
     />
 
@@ -54,30 +51,43 @@
       label="Confirm Password"
       type="password"
       error={errors?.passwordConfirm?.message}
-      on:clear={() => clearError('passwordConfirm')}
       placeholder="Confirm password..."
       required
     />
 
-    <FormElement name="termsOfService" type="checkbox" class="checkbox mr-2" required>
-      <span slot="trail">
+    <FormElement
+      name="termsOfService"
+      type="checkbox"
+      class="checkbox mr-2"
+      required
+      hideLabel
+      inline
+    >
+      <label for="termsOfService" class="label">
+        <input type="checkbox" name="termsOfService" id="termsOfService" class="checkbox" />
+        <span class="label-text ml-1">
+          I agree to the <a href="/terms-of-service">Terms of Service</a> and
+          <a href="/privacy-policy">Privacy Policy</a>
+        </span>
+      </label>
+      <!-- <span slot="trail">
         I agree to the <a href="/terms-of-service">Terms of Service</a> and
         <a href="/privacy-policy">Privacy Policy</a>
-      </span>
+      </span> -->
     </FormElement>
 
-    <button class="btn variant-filled-primary w-full">Register</button>
+    <button class="btn btn-primary w-full">Register</button>
   </Form>
   <HR>or</HR>
   <!-- Sign in with Google or Discord -->
-  <button class="btn variant-filled-surface w-full my-2">Sign in with Google</button>
-  <button class="btn variant-filled-surface w-full my-2">Sign in with Discord</button>
+  <button class="btn btn-secondary w-full my-2">Sign in with Google</button>
+  <button class="btn btn-secondary w-full my-2">Sign in with Discord</button>
 
   <!-- <CodeBlock code={JSON.stringify({ form, errors }, null, 2)} language="json" /> -->
 </Container>
 
 <style lang="postcss">
   a {
-    @apply anchor;
+    @apply link link-info;
   }
 </style>

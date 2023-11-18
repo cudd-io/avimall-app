@@ -5,10 +5,16 @@
   import { createEventDispatcher } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  type LabelType = 'leading' | 'trailing' | 'none';
+
   export let name: string;
   export let type: FormElementType | InputTypeAttribute | ButtonTypeAttribute;
   export let label: string = '';
   export let error = '';
+  export let labelType: LabelType = 'leading';
+  export let hideLabel = false;
+  export let inline = false;
+
   let labelClass: string = '';
   export let labelAttributes = {};
 
@@ -24,6 +30,9 @@
   $: elementType = getFormElementType(type);
 
   $: labelText = label || camelCaseToTitleCase(name);
+
+  $: leadingLabel = labelType === 'leading' || $$slots.lead;
+  $: trailingLabel = labelType === 'trailing' || $$slots.trail;
 
   const getFormElementType = (type: string): FormElementType => {
     if (isFormElementType(type)) {
@@ -48,7 +57,7 @@
 
   export let defaultStyles = {
     button: 'btn btn-primary',
-    input: 'input',
+    input: 'input input-bordered w-full',
     textarea: 'textarea',
     label: 'label',
     labelSpan: 'label-text',
@@ -61,9 +70,81 @@
   };
 </script>
 
-{#if elementType !== 'button'}
+<div class="form-control w-full flex" class:flex-row={inline}>
+  <!-- Non button input (input, textarea) -->
+  {#if elementType !== 'button'}
+    <!-- Leading label and slot -->
+
+    {#if leadingLabel}
+      {#if $$slots.lead}
+        <slot name="lead" />
+      {:else if !hideLabel}
+        <label for={name} class="{defaultStyles.label} {labelClass}" {...labelAttributes}>
+          <span class={defaultStyles.labelSpan}>{labelText}</span>
+        </label>
+      {/if}
+    {/if}
+
+    <!-- Input -->
+    {#if elementType === 'input' && !$$slots.default}
+      <input
+        id={name}
+        {name}
+        on:input={onStartTyping}
+        type={typeAttributeAsInputType}
+        class="
+        {type === 'checkbox' ? '' : defaultStyles[elementType]}
+        {defaultStyles[type]}
+        {classes}"
+        class:input-error={!!error}
+        {...$$restProps}
+      />
+    {:else if elementType === 'textarea'}
+      <textarea
+        id={name}
+        {name}
+        class="{defaultStyles[elementType]} {classes}"
+        class:input-error={!!error}
+        {...$$restProps}
+      />
+    {/if}
+
+    <!-- Default slot -->
+    {#if $$slots.default}
+      <slot />
+    {/if}
+
+    <!-- Trailing slot -->
+    {#if trailingLabel}
+      {#if $$slots.trail}
+        <slot name="trail" />
+      {:else if !hideLabel}
+        <label for={name} class="{defaultStyles.label} {labelClass}" {...labelAttributes}>
+          <span class={defaultStyles.labelSpan}>{labelText}</span>
+        </label>
+      {/if}
+    {/if}
+
+    <!-- {#if $$slots.trail} -->
+    <!-- <label for={name} class="{defaultStyles.label} {labelClass}" {...labelAttributes}> -->
+    <!-- <slot name="trail" /> -->
+    <!-- </label> -->
+    <!-- {/if} -->
+
+    {#if error}
+      <span
+        transition:fade|local={{ duration: 200 }}
+        class="text-error-500-400-token text-center w-full flex flex-col"
+      >
+        {error}
+      </span>
+    {/if}
+  {/if}
+</div>
+<!-- OLD: -->
+
+<!-- {#if elementType !== 'button'}
   <label for={name} class="{defaultStyles.label} {labelClass}" {...labelAttributes}>
-    <!-- Leading Label -->
     {#if $$slots.lead}
       <slot name="lead" />
     {:else if labelText && !$$slots.trail}
@@ -91,7 +172,7 @@
     {#if $$slots.default}
       <slot />
     {/if}
-    <!-- Trailing Label -->
+
     {#if $$slots.trail}
       <slot name="trail" />
     {/if}
@@ -104,11 +185,11 @@
       </span>
     {/if}
   </label>
-{/if}
+{/if} -->
 
 {#if elementType === 'button'}
   {#if $$slots.lead}
-    <slot name="trail" />
+    <slot name="lead" />
   {/if}
   <button
     on:click

@@ -1,18 +1,16 @@
 <script lang="ts">
-  import { registerSidebar } from '$lib/stores/sidebar';
-  import RailSidebar from '$lib/components/RailSidebar.svelte';
+  import { RailSidebar, GlobalSidebar } from '$lib/components';
+</script>
 
-  registerSidebar(RailSidebar, {
-    navLinks: [
+<GlobalSidebar>
+  <RailSidebar
+    navLinks={[
       { name: 'Avatars', href: '/mall/avatars', icon: 'raphael:woman' },
       { name: 'Clothing', href: '/mall/clothing', icon: 'raphael:tshirt' },
       { name: 'Accessories', href: '/mall/accessories', icon: 'raphael:crown' },
       { name: 'Misc', href: '/mall/misc', icon: 'raphael:fullcube' },
-    ],
-  });
-</script>
+    ]}
+  />
+</GlobalSidebar>
 
 <slot />
-
-<style lang="postcss">
-</style>
