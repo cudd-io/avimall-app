@@ -2,6 +2,7 @@ import cheerio from 'cheerio';
 import axios from 'axios';
 
 export * from './string';
+export * from './cn';
 
 export const serializeNonPOJOs = (obj: any) => {
   return structuredClone(obj);

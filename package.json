@@ -24,7 +24,8 @@
     "pb:linux": "./pb/bin/pocketbase-v0.19.4-linux serve",
     "pb:win32": "./pb/bin/pocketbase-v0.19.4-win.exe serve",
     "pb:darwin": "./pb/bin/pocketbase-v0.19.4-mac serve",
-    "pb:default": "echo 'Error: OS not supported' && exit 1"
+    "pb:default": "echo 'Error: OS not supported' && exit 1",
+    "node-v": "node -v"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.143",
@@ -66,14 +67,18 @@
     "@svelteuidev/core": "^0.15.3",
     "@types/cheerio": "^0.22.34",
     "axios": "^1.6.2",
+    "bits-ui": "^0.9.8",
     "cheerio": "1.0.0-rc.12",
     "clsx": "^2.0.0",
+    "formsnap": "^0.4.1",
     "jsdom": "^22.1.0",
     "lucide-svelte": "^0.292.0",
     "pocketbase": "^0.19.0",
     "svelte-icons": "^2.1.0",
+    "sveltekit-superforms": "^1.10.2",
     "tailwind-merge": "^2.0.0",
     "tailwind-variants": "^0.1.18",
-    "xmldom": "^0.6.0"
+    "xmldom": "^0.6.0",
+    "zod": "^3.22.4"
   }
 }
