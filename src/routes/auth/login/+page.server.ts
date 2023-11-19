@@ -1,5 +1,4 @@
-import { redirect, type Actions } from '@sveltejs/kit';
-import { register } from 'module';
+import { redirect, type Actions, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 
 import { loginSchema } from './schema';
@@ -9,27 +8,36 @@ export const load = async ({ locals }) => {
     throw redirect(303, '/my/settings');
   }
 
+  const form = await superValidate(loginSchema, {});
   return {
-    form: superValidate(loginSchema, {}),
+    form,
   };
 };
 
 export const actions: Actions = {
   login: async ({ locals, request }) => {
-    const body = Object.fromEntries(await request.formData());
+    const form = await superValidate(request, loginSchema);
+    if (!form.valid) return fail(400, { form });
 
     try {
       // Log user in and redirect to home
-      locals.user = await locals.pb.collection('users').authWithPassword(body.email, body.password);
+      await loginUser(form.data.email, form.data.password, locals);
     } catch (err: any) {
-      console.error('Error signing in ', err);
-      return {
-        success: false,
-        error: err.message,
-      };
+      return fail(400, {
+        form,
+        error: 'Invalid email or password',
+      });
     }
 
     // Successfully logged in, redirect to home
     throw redirect(303, '/');
   },
+};
+
+const loginUser = async (email: string, password: string, locals: App.Locals) => {
+  try {
+    locals.user = await locals.pb.collection('users').authWithPassword(email, password);
+  } catch (err: any) {
+    throw err;
+  }
 };

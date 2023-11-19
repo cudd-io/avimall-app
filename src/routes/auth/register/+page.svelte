@@ -5,8 +5,12 @@
 
   import type { SuperValidated } from 'formsnap';
   import { registerSchema, type RegisterSchema } from './schema';
+  import { superValidate } from 'sveltekit-superforms/server';
 
-  export let form: SuperValidated<RegisterSchema>;
+  // export let form: SuperValidated<RegisterSchema>;
+  export let data;
+
+  const { form }: { form: SuperValidated<RegisterSchema> } = data;
 </script>
 
 <Container card>

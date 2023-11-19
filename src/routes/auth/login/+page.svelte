@@ -1,11 +1,12 @@
 <script lang="ts">
   import type { SuperValidated } from 'formsnap';
   import * as Form from '$lib/components/ui/form';
-  import { HR, Container } from '$lib/components';
   import MagicForm from '$lib/components/ui/form/magic-form.svelte';
+  import { HR, Container } from '$lib/components';
   import { loginSchema, type LoginSchema } from './schema';
 
-  export let form: SuperValidated<LoginSchema>;
+  export let data;
+  const { form }: { form: SuperValidated<LoginSchema> } = data;
 </script>
 
 <Container card>
@@ -36,7 +37,7 @@
       },
     ]}
   >
-    <!-- Remember this device -->
+    <!-- Remember this device and forgot password -->
     <Form.Field {config} name="rememberMe">
       <Form.Item class="flex flex-row justify-between">
         <div class="group flex flex-row">

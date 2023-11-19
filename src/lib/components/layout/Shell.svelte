@@ -27,7 +27,7 @@
   :global(#page) {
     overflow: auto;
 
-    & main {
+    :global(main) {
       @apply flex-1;
     }
   }

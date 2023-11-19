@@ -1,57 +1,43 @@
 <script lang="ts">
   import { CodeBlock } from '@skeletonlabs/skeleton';
-  import { enhance } from '$app/forms';
-  import { Container, HR, Alert, Form, FormElement } from '$lib/components/';
-  import { goto } from '$app/navigation';
+  import * as Form from '$lib/components/ui/form';
 
-  export let form;
+  import type { SuperValidated } from 'formsnap';
+
+  import { formSchema, type FormSchema } from './schema';
+  import { superValidate } from 'sveltekit-superforms/server';
+  import { Container } from '$lib/components';
+
+  export let data;
+  export let form: SuperValidated<FormSchema>;
+  const { form: dataForm }: { form: SuperValidated<FormSchema> } = data;
 </script>
 
-<Container main card>
-  <div class="text-center mb-10">
-    <h2 class="h2">Test Form</h2>
-    <p class="text-sm my-2">Just for testing</p>
-  </div>
+<div class="text-center mb-10">
+  <h2 class="text-4xl">Test Form</h2>
+  <p class="text-sm my-2">Just a test form. Doesn't do anything</p>
+</div>
 
-  <Form method="POST" action="?/register">
-    <FormElement
-      name="username"
-      type="text"
-      placeholder="Choose a username..."
-      value={form?.body.username}
-      required
-    />
-    <FormElement
-      name="email"
-      type="email"
-      placeholder="Enter email address..."
-      value={form?.body.email}
-      required
-    />
+<!-- Form -->
 
-    <FormElement name="password" type="password" placeholder="Enter password..." />
+<Form.Root
+  method="POST"
+  form={dataForm}
+  schema={formSchema}
+  let:config
+  class="grid grid-cols-1 gap-4"
+>
+  <Form.Field {config} name="name">
+    <Form.Input name="name" type="text" placeholder="Name" />
+    <Form.Validation />
+  </Form.Field>
+  <Form.Field {config} name="description">
+    <Form.Textarea name="description" placeholder="Description" />
+    <Form.Validation />
+  </Form.Field>
+  <Form.Button>Submit</Form.Button>
+</Form.Root>
 
-    <FormElement
-      name="passwordConfirm"
-      label="Confirm Password"
-      type="password"
-      placeholder="Confirm password..."
-    />
-
-    <FormElement name="termsOfService" type="checkbox" class="checkbox mr-2" required>
-      <span slot="trail">
-        I agree to the <a href="/terms-of-service">Terms of Service</a> and
-        <a href="/privacy-policy">Privacy Policy</a>
-      </span>
-    </FormElement>
-
-    <button class="btn variant-filled-primary w-full">Register</button>
-  </Form>
-
-  <HR>or</HR>
-  <!-- Sign in with Google or Discord -->
-  <button class="btn variant-filled-surface w-full my-2">Sign in with Google</button>
-  <button class="btn variant-filled-surface w-full my-2">Sign in with Discord</button>
-
-  <CodeBlock code={JSON.stringify({ form }, null, 2)} language="json"></CodeBlock>
-</Container>
+<div class="mockup-code">
+  <pre><code>{JSON.stringify({ form, data }, null, 2)}</code></pre>
+</div>

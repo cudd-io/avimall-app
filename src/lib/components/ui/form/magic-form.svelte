@@ -17,9 +17,12 @@
   import { camelCaseToTitleCase, cn } from '$lib/utils';
   import { isButtonType, isFormElementType, isInputType } from '$lib/types';
 
+  type T = $$Generic<ZodValidation<AnyZodObject>>;
+
   export let fields: FormField[] = [];
   export let schema: ZodObject<any>;
-  export let form: SuperValidated<any>;
+  export let form: SuperValidated<T>;
+
   let className: string = '';
   export { className as class };
 
@@ -54,10 +57,11 @@
   {form}
   {schema}
   let:config
+  let:message
   class={cn('grid grid-cols-1 gap-4', className)}
   {...$$restProps}
 >
-  <slot name="before-fields" {config} />
+  <slot name="before-fields" {config} {message} />
 
   {#each fields as field}
     <Form.Field {config} name={field.name}>
@@ -77,6 +81,6 @@
       <Form.Button type={asAny(field.type)} class={field.class} />
     {/if}
   {/each}
-  <slot {config} />
-  <slot name="after-fields" {config} />
+  <slot {config} {message} />
+  <slot name="after-fields" {config} {message} />
 </Form.Root>

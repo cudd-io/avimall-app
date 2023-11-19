@@ -1,45 +1,59 @@
 import type { PageServerLoad } from './$types';
 import { redirect, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
+import { fail } from '@sveltejs/kit';
 
-import { registerSchema } from './schema';
+import { registerSchema, type RegisterSchema } from './schema';
+import type { SuperValidated } from 'formsnap';
 
-export const load: PageServerLoad = ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
   // console.log('locals', locals);
   if (locals.user) {
     throw redirect(303, '/my/settings');
   }
 
+  const form = await superValidate(registerSchema, {});
+
+  console.log('form', form);
   return {
-    form: superValidate(registerSchema, {}),
+    form,
   };
 };
 
 export const actions: Actions = {
   register: async ({ locals, request }) => {
-    const body = Object.fromEntries(await request.formData());
-    // Set display name to username by default
-    const name = body.username;
+    const form = await superValidate(request, registerSchema);
+    if (!form.valid) return fail(400, { form });
 
+    // Create new user and authenticate
     try {
-      // Create user and send verification email
-      await locals.pb.collection('users').create({ name, ...body });
-      await locals.pb.collection('users').requestVerification(body.email);
-
-      // Log user in automatically and redirect to home
-      locals.user = await locals.pb.collection('users').authWithPassword(body.email, body.password);
+      await createUser(form, locals);
+      await loginUser(form.data.email, form.data.password, locals);
     } catch (err: any) {
       console.log('Error creating user: ', JSON.stringify(err, null, 2));
-
-      const { password, comfirmPassword, ...rest } = body;
-      return {
-        success: false,
-        error: { ...err.data },
-        body: rest,
-      };
+      return fail(400, { form, error: err.message });
     }
 
     // Successfully created user and logged in, redirect to home
     throw redirect(303, '/');
   },
+};
+
+const createUser = async (form: SuperValidated<RegisterSchema>, locals: App.Locals) => {
+  try {
+    const name = form.data.username;
+
+    await locals.pb.collection('users').create({ name, ...form.data });
+    await locals.pb.collection('users').requestVerification(form.data.email);
+  } catch (err: any) {
+    throw err;
+  }
+};
+
+const loginUser = async (email: string, password: string, locals: App.Locals) => {
+  try {
+    await locals.pb.collection('users').authWithPassword(email, password);
+  } catch (err: any) {
+    throw err;
+  }
 };
