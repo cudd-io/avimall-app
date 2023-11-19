@@ -9,5 +9,5 @@ export { default as GlobalSidebar } from './sidebars/GlobalSidebar.svelte';
 export { default as RailSidebar } from './sidebars/RailSidebar.svelte';
 
 // form components
-export { default as FormElement } from './ui/FormElement.svelte';
-export { default as Form } from './ui/Form.svelte';
+export { default as FormElement } from './form/FormElement.svelte';
+export { default as Form } from './form/Form.svelte';
