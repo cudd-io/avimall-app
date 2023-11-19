@@ -12,6 +12,6 @@
   const { errors, ids } = getFormField();
 </script>
 
-<Label for={$ids.input} class={cn($errors && 'text-destructive', className)} {...$$restProps}>
+<Label for={$ids.input} class={cn($errors && 'text-error', className)} {...$$restProps}>
   <slot />
 </Label>

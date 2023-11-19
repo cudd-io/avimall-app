@@ -1,10 +1,18 @@
+import type { PageServerLoad } from './$types';
 import { redirect, type Actions } from '@sveltejs/kit';
+import { superValidate } from 'sveltekit-superforms/server';
 
-export const load = async ({ locals }) => {
-  console.log('locals', locals);
+import { registerSchema } from './schema';
+
+export const load: PageServerLoad = ({ locals }) => {
+  // console.log('locals', locals);
   if (locals.user) {
     throw redirect(303, '/my/settings');
   }
+
+  return {
+    form: superValidate(registerSchema, {}),
+  };
 };
 
 export const actions: Actions = {
@@ -14,10 +22,6 @@ export const actions: Actions = {
     const name = body.username;
 
     try {
-      if (!body.termsOfService) {
-        throw new Error('TOS');
-      }
-
       // Create user and send verification email
       await locals.pb.collection('users').create({ name, ...body });
       await locals.pb.collection('users').requestVerification(body.email);
@@ -25,16 +29,12 @@ export const actions: Actions = {
       // Log user in automatically and redirect to home
       locals.user = await locals.pb.collection('users').authWithPassword(body.email, body.password);
     } catch (err: any) {
-      // console.log('Error creating user: ', JSON.stringify(err, null, 2));
-      const tosError = {
-        message: 'You must agree to the terms of service',
-        code: 'tos_not_accepted',
-      };
+      console.log('Error creating user: ', JSON.stringify(err, null, 2));
 
       const { password, comfirmPassword, ...rest } = body;
       return {
         success: false,
-        error: { ...err.data, termsOfService: err.message === 'TOS' ? tosError : undefined },
+        error: { ...err.data },
         body: rest,
       };
     }

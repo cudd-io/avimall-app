@@ -7,6 +7,6 @@
   export { className as class };
 </script>
 
-<div class={cn('space-y-2', className)} {...$$restProps}>
+<div class={cn('form-control w-full flex', className)} {...$$restProps}>
   <slot />
 </div>

@@ -10,7 +10,10 @@
 </script>
 
 <LabelPrimitive.Root
-  class={cn('label-text peer-disabled:cursor-not-allowed peer-disabled:opacity-70', className)}
+  class={cn(
+    'label label-text peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+    className
+  )}
   {...$$restProps}
   on:mousedown
 >

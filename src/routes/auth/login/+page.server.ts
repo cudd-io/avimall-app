@@ -1,11 +1,17 @@
 import { redirect, type Actions } from '@sveltejs/kit';
 import { register } from 'module';
+import { superValidate } from 'sveltekit-superforms/server';
+
+import { loginSchema } from './schema';
 
 export const load = async ({ locals }) => {
-  console.log('locals', locals);
   if (locals.user) {
     throw redirect(303, '/my/settings');
   }
+
+  return {
+    form: superValidate(loginSchema, {}),
+  };
 };
 
 export const actions: Actions = {

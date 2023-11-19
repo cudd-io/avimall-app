@@ -1,16 +1,14 @@
 <script lang="ts">
-  import { Form, FormElement } from '$lib/components/';
-  import { enhance } from '$app/forms';
+  import type { SuperValidated } from 'formsnap';
+  import * as Form from '$lib/components/ui/form';
   import { HR, Container } from '$lib/components';
+  import MagicForm from '$lib/components/ui/form/magic-form.svelte';
+  import { loginSchema, type LoginSchema } from './schema';
 
-  import type { SubmitFunction } from '@sveltejs/kit';
-
-  export let form;
-
-  const errorMessage = form?.error ? 'Invalid email or password' : '';
+  export let form: SuperValidated<LoginSchema>;
 </script>
 
-<Container main card>
+<Container card>
   <div class="text-center mb-10">
     <h2 class="text-4xl">Login to your account</h2>
     <p class="text-sm my-2">
@@ -18,36 +16,41 @@
     </p>
   </div>
 
-  <Form method="POST" action="?/login">
-    <FormElement name="email" type="email" placeholder="Enter email address..." />
+  <MagicForm
+    method="POST"
+    {form}
+    schema={loginSchema}
+    let:config
+    class="grid grid-cols-1 gap-4"
+    action="?/login"
+    fields={[
+      {
+        name: 'email',
+        type: 'email',
+        placeholder: 'Enter email address...',
+      },
+      {
+        name: 'password',
+        type: 'password',
+        placeholder: 'Enter password...',
+      },
+    ]}
+  >
+    <!-- Remember this device -->
+    <Form.Field {config} name="rememberMe">
+      <Form.Item class="flex flex-row justify-between">
+        <div class="group flex flex-row">
+          <Form.Checkbox class="checkbox my-auto" />
+          <Form.Label class="label-text ml-4 my-auto ">Remember this device</Form.Label>
+        </div>
+        <a href="/auth/forgot-password" class="label text-sm break-keep whitespace-nowrap text"
+          >Forgot Password</a
+        >
+      </Form.Item>
+    </Form.Field>
 
-    <FormElement
-      name="password"
-      type="password"
-      placeholder="Enter password..."
-      error={errorMessage}
-    />
-
-    <div class="form-control flex flex-row justify-between">
-      <FormElement
-        name="remember"
-        type="checkbox"
-        labelClass="label cursor-pointer"
-        class="checkbox"
-        inline
-        hideLabel
-      >
-        <label for="remember" class="label">
-          <input type="checkbox" id="remember" class="checkbox" name="termsOfService" />
-          <span class="label-text ml-1"> Remember this device </span>
-        </label>
-      </FormElement>
-      <a href="/auth/forgot-password" class="label text-sm break-keep whitespace-nowrap text"
-        >Forgot Password</a
-      >
-    </div>
-    <button slot="trail" class="btn btn-primary w-full">Login</button>
-  </Form>
+    <Form.Button>Login</Form.Button>
+  </MagicForm>
 
   <HR>or</HR>
   <!-- Sign in with Google or Discord -->
