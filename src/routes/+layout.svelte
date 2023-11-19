@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Footer, Header } from '$lib/layout';
-  import Shell from '$lib/layout/Shell.svelte';
+  import { Footer, Header } from '$lib/components/layout';
+  import Shell from '$lib/components/layout/Shell.svelte';
   import '../app.postcss';
 
   // Floating UI for Popups

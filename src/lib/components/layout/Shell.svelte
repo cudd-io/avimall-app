@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { fade, fly } from 'svelte/transition';
-  import { Footer, Header } from '$lib/layout';
+  import { Footer, Header } from '$lib/components/layout';
   import { AppShell } from '@skeletonlabs/skeleton';
-  import { sidebarOpen } from '$lib/stores/sidebar';
   import { page } from '$app/stores';
 
   export let data: any;
@@ -24,3 +22,13 @@
     <Footer />
   </svelte:fragment>
 </AppShell>
+
+<style lang="postcss">
+  :global(#page) {
+    overflow: auto;
+
+    & main {
+      @apply flex-1;
+    }
+  }
+</style>

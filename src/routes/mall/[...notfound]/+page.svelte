@@ -2,7 +2,7 @@
 </script>
 
 <div class="card m-4 p-4 text-center justify-center container mx-auto">
-  <h2 class="h2 w-full">404 - Page not found</h2>
+  <h2 class="text-2xl w-full">404 - Page not found</h2>
 
   <div class="p-4">
     <p class="text-md">Sorry, that page could not be found. Perhaps it was moved or deleted?</p>

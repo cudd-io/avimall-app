@@ -1,7 +1,13 @@
-export { default as HR } from './HR.svelte';
-export { default as Container } from './Container.svelte';
-export { default as Alert } from './Alert.svelte';
-export { default as Form } from './Form.svelte';
-export { default as FormElement } from './FormElement.svelte';
-export { default as RailSidebar } from './RailSidebar.svelte';
-export { default as GlobalSidebar } from './GlobalSidebar.svelte';
+// ui components
+export { default as Container } from './ui/Container.svelte';
+export { default as Portal } from './ui/Portal.svelte';
+export { default as Alert } from './ui/Alert.svelte';
+export { default as HR } from './ui/HR.svelte';
+
+// Sidebar components
+export { default as GlobalSidebar } from './sidebars/GlobalSidebar.svelte';
+export { default as RailSidebar } from './sidebars/RailSidebar.svelte';
+
+// form components
+export { default as FormElement } from './ui/FormElement.svelte';
+export { default as Form } from './ui/Form.svelte';

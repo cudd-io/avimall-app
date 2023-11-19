@@ -11,7 +11,7 @@ Renders a global sidebar that can be toggled open and closed
 <script lang="ts">
   import { afterNavigate, beforeNavigate } from '$app/navigation';
   import { onMount } from 'svelte';
-  import Portal from './Portal.svelte';
+  import { Portal } from '$lib/components';
 
   import { slide, fly } from 'svelte/transition';
   import { sidebarOpen } from '$lib/stores/sidebar';
@@ -39,7 +39,7 @@ Renders a global sidebar that can be toggled open and closed
   });
 </script>
 
-<button on:click={() => ($sidebarOpen = !$sidebarOpen)}>toggle sidebar: {$sidebarOpen}</button>
+<!-- <button on:click={() => ($sidebarOpen = !$sidebarOpen)}>toggle sidebar: {$sidebarOpen}</button> -->
 {#if $sidebarOpen}
   <Portal {target} class="h-full">
     <div
