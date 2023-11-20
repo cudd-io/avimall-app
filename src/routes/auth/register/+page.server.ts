@@ -7,14 +7,12 @@ import { registerSchema, type RegisterSchema } from './schema';
 import type { SuperValidated } from 'formsnap';
 
 export const load: PageServerLoad = async ({ locals }) => {
-  // console.log('locals', locals);
   if (locals.user) {
     throw redirect(303, '/my/settings');
   }
 
   const form = await superValidate(registerSchema, {});
 
-  console.log('form', form);
   return {
     form,
   };
@@ -30,7 +28,6 @@ export const actions: Actions = {
       await createUser(form, locals);
       await loginUser(form.data.email, form.data.password, locals);
     } catch (err: any) {
-      console.log('Error creating user: ', JSON.stringify(err, null, 2));
       return fail(400, { form, error: err.message });
     }
 
