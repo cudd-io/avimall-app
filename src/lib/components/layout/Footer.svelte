@@ -31,6 +31,7 @@
     <option value="cosmic-noir">Dark</option>
     <option value="light">Light</option>
   </select>
+
   <span>Copyright © {new Date().getFullYear()} Erika Tho - All right reserved</span>
   <!-- <span><a href="https://github.com/erikatho" target="_blank" rel="noreferrer">GitHub</a></span> -->
   <ul class="links flex flex-row gap-2">
