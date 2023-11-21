@@ -6,7 +6,17 @@ import daisyui from 'daisyui';
 export default {
   darkMode: 'class',
   content: ['./src/**/*.{html,js,svelte,ts}'],
-  safelist: ['dark'],
+  safelist: [
+    'dark',
+    {
+      pattern: /^bg-./,
+      variants: ['hover', 'focus'],
+    },
+    {
+      pattern: /^col-span-./,
+      variants: ['hover', 'focus'],
+    },
+  ],
   theme: {
     container: {
       center: true,

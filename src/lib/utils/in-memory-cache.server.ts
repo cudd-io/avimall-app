@@ -1,4 +1,4 @@
-// in memory cache
+// In memory cache for use on the server only
 
 const caches: Caches = {};
 
