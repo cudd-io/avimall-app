@@ -34,7 +34,7 @@
 </script>
 
 <script lang="ts">
-  import DeleteDialog from './DeleteDialog.svelte';
+  import DeleteDialog from '$lib/components/layout/DeleteDialog.svelte';
   import { getBoothItem } from '$lib/utils/booth/api';
   import { transformBoothItem } from '$lib/utils/booth/transformers';
 
