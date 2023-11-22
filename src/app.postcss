@@ -12,6 +12,7 @@ body {
   @apply h-full overflow-hidden;
 }
 body {
+  /* @apply bg-gradient-to-br to-base-100 from-accent; */
 }
 
 .bg-translucent-blur {
@@ -27,4 +28,20 @@ body {
 
 [type='checkbox']:not(:checked) {
   background: none;
+}
+
+.bg-glass {
+  @apply backdrop-blur-md bg-black/5 dark:bg-white/5;
+
+  /* &-dark {
+    @apply bg-black/5  dark:bg-black/5 backdrop-blur-md;
+  }
+
+  &-light {
+    @apply bg-white/5 dark:bg-white/5 backdrop-blur-md;
+  } */
+}
+
+.bg-glass-darker {
+  @apply backdrop-blur-md bg-black/10 dark:bg-neutral/70;
 }

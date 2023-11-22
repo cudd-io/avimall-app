@@ -37,6 +37,7 @@
   import DeleteDialog from '$lib/components/ui/delete-dialog.svelte';
   import { getBoothItem } from '$lib/utils/booth/api';
   import { transformBoothItem } from '$lib/utils/booth/transformers';
+  import Icon from '@iconify/svelte';
 
   const itemFactory = (): ImportItem => {
     return {
@@ -116,19 +117,24 @@
 
     const fieldsToTranslate = ['name', 'description', 'tags'];
 
-    for (const field of fieldsToTranslate) {
-      const translatedField = await translateToEnglish(rowJson, field);
-      const item = importItems[itemIndex] as any;
-      item[field] = translatedField;
+    try {
+      for (const field of fieldsToTranslate) {
+        const item = importItems[itemIndex] as any;
+        const translatedField = await translateToEnglish(item[field]);
+        item[field] = translatedField;
 
-      importItems[itemIndex] = item;
+        importItems[itemIndex] = item;
 
-      importItems = importItems;
+        importItems = importItems;
+      }
+
+      importItems[itemIndex].translated = RequestStatus.success;
+
+      return;
+    } catch (error) {
+      console.error(error);
+      importItems[itemIndex].translated = RequestStatus.error;
     }
-
-    importItems[itemIndex].translated = RequestStatus.success;
-
-    return;
   };
 
   const deleteRow = (itemIndex: number) => {
@@ -139,7 +145,7 @@
   let deleteDialogOpen = false;
 </script>
 
-<div class="card mx-auto my-8 p-8 bg-base-200 container">
+<div class="card mx-auto my-8 p-8 bg-glass container">
   <h2 class="text-center text-2xl">Bulk Importer</h2>
 
   <ul class="w-full my-2">
@@ -155,11 +161,8 @@
           ></Input>
           <Button
             class={cn({
-              // 'btn-success': item.translated === 'success',
-              // 'btn-secondary': item.translated === 'waiting' || item.translated === 'idle',
-              // 'btn-error': item.translated === 'error',
-              'btn-success': item.translated === RequestStatus.success,
-              'btn-secondary':
+              'btn-secondary': item.translated === RequestStatus.success,
+              'btn-primary':
                 item.translated === RequestStatus.waiting || item.translated === RequestStatus.idle,
               'btn-error': item.translated === RequestStatus.error,
             })}
@@ -176,27 +179,28 @@
           </Button>
           <Button
             class={cn({
-              'btn-success': item.fetched === RequestStatus.success,
+              'btn-secondary': item.fetched === RequestStatus.success,
               'btn-primary':
                 item.fetched === RequestStatus.waiting || item.fetched === RequestStatus.idle,
-              'btn-error': item.translated === RequestStatus.error,
+              'btn-error': item.fetched === RequestStatus.error,
             })}
             disabled={item.fetched === 'waiting'}
             on:click={() => fetchDetails(itemIndex)}
           >
             {#if item.fetched === 'waiting'}
               <span class="loading loading-spinner" aria-label="Loading" />
-            {:else if item.fetched}
+            {:else if item.fetched === RequestStatus.success}
               Fetched
-            {:else if item.fetched === 'error'}
+            {:else if item.fetched === RequestStatus.error}
               Error
             {:else}
               Fetch
             {/if}
           </Button>
-          <Button class="btn-outline width-auto" on:click={() => (item.showMore = !item.showMore)}
-            >&#9660; Show more</Button
-          >
+          <Button class="btn-outline width-auto" on:click={() => (item.showMore = !item.showMore)}>
+            Show more
+            <Icon class="w-4 h-4" icon={item.showMore ? 'mdi:chevron-down' : 'mdi:chevron-right'} />
+          </Button>
         </div>
 
         {#if item.showMore}

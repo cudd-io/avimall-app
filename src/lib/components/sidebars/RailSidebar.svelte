@@ -46,7 +46,7 @@ Renders a menu with clickable links and optional icons.
   const isActive = (link: MenuItem, _activeTab = activeTab) => $page.url.pathname === link.href;
 </script>
 
-<ul class="menu bg-base-200 h-full">
+<ul class="menu bg-glass text-secondary-content h-full">
   <!-- the head slot -->
   {#if $$slots.head}
     <li class="flex flex-col">

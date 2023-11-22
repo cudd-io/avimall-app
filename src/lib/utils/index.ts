@@ -19,10 +19,9 @@ export const cheerioFromURL = async (url: string) => {
   return cheerio.load(data);
 };
 
-const PROXY_URL = '/api/proxy?url=';
+export const translateToEnglish = async (text: string) => {
+  const apiUrl = `/api/translate`;
 
-export const translateToEnglish = async (text: string, proxyUrl = PROXY_URL) => {
-  const apiUrl = `${proxyUrl}https://665.uncovernet.workers.dev/translate`;
   const params = {
     text,
     source_lang: 'ja',

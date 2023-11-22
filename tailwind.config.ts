@@ -4,26 +4,50 @@ import typography from '@tailwindcss/typography';
 import daisyui from 'daisyui';
 
 const customThemes = {
-  'cosmic-noir': {
-    primary: '#ff61e2',
+  // light: {
+  //   primary: '#9e0081',
+  //   secondary: '#fdbff2',
+  //   accent: '#e907bf',
+  //   neutral: '#f6e0f1',
+  //   'base-100': '#fee7f9',
+  //   info: '#3889fd',
+  //   success: '#00dd77',
+  //   warning: '#e84b00',
+  //   error: '#ff677e',
+  // },
+  // dark: {
+  //   primary: '#ff61e2',
+  //   secondary: '#400235',
+  //   accent: '#f816cf',
+  //   neutral: '#1f091a',
+  //   'base-100': '#180113',
+  // },
+  light: {
+    primary: '#e65cdc',
+    secondary: '#fcacf6',
+    accent: '#be1eb3',
+    neutral: '#4d0047',
+    'base-100': '#ffd1fc',
 
-    secondary: '#4c1d95',
+    info: '#3889fd',
+    success: '#00dd77',
+    warning: '#e84b00',
+    error: '#ff677e',
+  },
+  dark: {
+    primary: '#a3199a',
+    secondary: '#54034d',
+    accent: '#e141d7',
+    neutral: '#4d0047',
+    'base-100': '#2e002b',
 
-    accent: '#4949a2',
-
-    neutral: '#0f090b',
-
-    'base-100': '#0A0D12',
-
-    info: '#00f4ff',
-
-    success: '#bfe740',
-
-    warning: '#da8300',
-
-    error: '#ff4778',
+    info: '#3889fd',
+    success: '#00dd77',
+    warning: '#e84b00',
+    error: '#ff677e',
   },
 };
+
 export default {
   darkMode: ['class', '[data-theme="dark"]'],
   content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -36,9 +60,9 @@ export default {
     {
       pattern: /^col-span-./,
     },
-    {
-      pattern: /^w-./,
-    },
+    // {
+    //   pattern: /^w-./,
+    // },
   ],
   theme: {
     container: {
@@ -59,6 +83,6 @@ export default {
     prefix: '', // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
     logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
     themeRoot: 'html', // The element that receives theme color CSS variables
-    themes: ['light', 'dark', 'cupcake', customThemes], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    themes: [{ ...customThemes }], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
   },
 } satisfies Config;

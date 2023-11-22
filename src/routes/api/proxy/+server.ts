@@ -9,8 +9,17 @@ export const GET = async ({ url }) => {
     return new Response('No url provided', { status: 400 });
   }
 
-  const { data } = await axios.get(providedUrl);
+  const decoded = decodeURIComponent(providedUrl || '');
 
-  return new Response(JSON.stringify(data, null, 2), { status: 200 });
-  // const res = await fetch(url);
+  console.log('decoded', decoded);
+
+  try {
+    const { data } = await axios.get(providedUrl);
+
+    return new Response(JSON.stringify(data, null, 2), { status: 200 });
+    // const res = await fetch(url);
+  } catch (error: any) {
+    console.error(`Error: ${error.message}`);
+    return new Response(JSON.stringify(error, null, 2), { status: 500 });
+  }
 };

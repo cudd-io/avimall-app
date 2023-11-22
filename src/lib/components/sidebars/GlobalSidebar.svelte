@@ -43,7 +43,7 @@ Renders a global sidebar that can be toggled open and closed
 {#if $sidebarOpen}
   <Portal {target} class="h-full">
     <div
-      class="h-full bg-red-50"
+      class="h-full"
       in:slide|local={{ duration: 300, axis: 'x' }}
       out:fly|local={{ x: -200, duration: 300 }}
     >

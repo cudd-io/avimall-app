@@ -1,9 +1,11 @@
 <script lang="ts">
+  import Icon from '@iconify/svelte';
   import type { MenuItem } from '$lib/types';
   import { AppBar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 
   import { Avatar } from '@skeletonlabs/skeleton';
   import UserMenu from './UserMenu.svelte';
+  import { cn } from '$lib/utils';
 
   export let data: any;
 
@@ -16,82 +18,101 @@
 
   let debug = false;
 
+  const menuBar: MenuItem[] = [
+    {
+      name: 'Avatars',
+      href: '/mall',
+      classes: 'btn-ghost',
+    },
+  ];
+
   const loggedOutMenuBar: MenuItem[] = [
     {
       name: 'Login',
       href: '/auth/login',
-      classes: 'variant-ghost-surface',
+      classes: 'btn-ghost',
     },
     {
       name: 'Register',
       href: '/auth/register',
-      classes: 'variant-filled',
+      classes: 'btn-primary',
     },
   ];
 
   const loggedInMenuBar: MenuItem[] = [
-    // Nothing here yet, but keeping it in case I want to add some
+    // bulk import
     {
-      name: 'Shop',
-      href: '/mall',
+      name: 'Import',
+      href: '/tools/bulk-import',
+      classes: 'btn-ghost',
+      icon: 'solar:import-bold',
+    },
+    // Favorites
+    {
+      name: 'Favoritesss',
+      href: '/my/favorites',
+      classes: 'btn-ghost',
+      icon: 'mdi:heart-outline',
     },
   ];
 </script>
 
-<div class="navbar bg-base-200">
+<header class="navbar bg-glass border-b-base-300 text-secondary-content">
   <div class="flex-1">
     <a class="btn text-xl btn-ghost" href="/">Avatar Mall</a>
   </div>
-  <!-- <div class="form-control flex-1 m-4">
-    <input type="text" placeholder="Search" class="input input-bordered w-full" />
-  </div> -->
-  <!-- Logged out items -->
 
-  <div class="flex-none gap-2">
+  <!-- Menu Bar Items -->
+  <nav class="flex-none gap-2">
+    {#each menuBar as item}
+      <a href={item.href} class={cn('btn', item.classes)} class:btn-circle={item.icon}>
+        {#if item.icon}
+          <Icon icon={`${item.icon}`} width="24" aria-label={item.name} />
+        {:else}
+          {item.name}
+        {/if}
+      </a>
+    {/each}
     {#if !data.user}
-      <!-- <a href="/auth/login" class="btn btn-ghost">Login</a> -->
       {#each loggedOutMenuBar as item}
-        <a href={item.href} class="btn btn-ghost">{item.name}</a>
+        <a href={item.href} class={cn('btn', item.classes)} class:btn-circle={item.icon}>
+          {#if item.icon}
+            <Icon icon={`${item.icon}`} width="24" aria-label={item.name} />
+          {:else}
+            {item.name}
+          {/if}
+        </a>
       {/each}
     {:else}
       {#each loggedInMenuBar as item}
-        <a href={item.href} class="btn btn-ghost">{item.name}</a>
+        <a href={item.href} class={cn('btn', item.classes)} class:btn-circle={item.icon}>
+          {#if item.icon}
+            <Icon icon={`${item.icon}`} width="24" aria-label={item.name} />
+          {:else}
+            {item.name}
+          {/if}
+        </a>
       {/each}
     {/if}
-  </div>
+  </nav>
 
   {#if data.user}
     <UserMenu {data} />
   {/if}
-</div>
+</header>
 
-<!-- <AppBar>
-  <svelte:fragment slot="lead">
-    <a href="/" class="text-xl uppercase">Avatar Mall</a>
-  </svelte:fragment>
-
-  <svelte:fragment slot="trail">
-    {#if !data.user}
-      {#each loggedOutMenuBar as link}
-        <a href={link.href} class="btn btn-md {link.classes}">
-          {link.name}
-        </a>
-      {/each}
-    {:else}
-      {#each loggedInMenuBar as link}
-        <a href={link.href} class="btn btn-md {link.classes}">
-          {link.name}
-        </a>
-      {/each}
-      <button use:popup={userPopup} class="btn btn-md btn-icon variant-filled">
-        <Avatar
-          src="https://placewaifu.com/image/256?random={data.user.id}"
-          rounded="rounded-full"
-          cursor="cursor-pointer"
-        />
-      </button>
-
-      <UserMenu {data} {debug} />
-    {/if}
-  </svelte:fragment>
-</AppBar> -->
+<style lang="postcss">
+  header {
+    position: relative;
+  }
+  /* #shadow {
+    postion: absolute !important;
+    display: block;
+    top: 0px !important;
+    width: 100%;
+    height: 100%;
+    background: red;
+    z-index: 200;
+    content: 'fffffff';
+  } */
+</style>

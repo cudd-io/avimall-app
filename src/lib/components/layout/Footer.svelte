@@ -27,9 +27,9 @@
 <footer class="footer items-center p-4 text-base-content flex flex-row text-center justify-between">
   <select data-choose-theme class="select select-ghost select-md">
     <option disabled selected>Choose Theme</option>
-    <option value="OS">OS Default</option>
-    <option value="cosmic-noir">Dark</option>
-    <option value="light">Light</option>
+    <!-- <option value="OS">OS Default</option> -->
+    <option value="light">Pink</option>
+    <option value="dark">Dark Pink</option>
   </select>
 
   <span>Copyright © {new Date().getFullYear()} Erika Tho - All right reserved</span>
