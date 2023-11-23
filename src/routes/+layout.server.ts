@@ -1,4 +1,4 @@
-export const load = ({ locals }) => {
+export const load = ({ locals, url }) => {
   if (locals.user) {
     return {
       user: locals.user,
@@ -6,6 +6,7 @@ export const load = ({ locals }) => {
   }
 
   return {
+    url: url.pathname,
     user: undefined,
   };
 };

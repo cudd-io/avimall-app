@@ -2,26 +2,10 @@ import type { Config } from 'tailwindcss';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 import daisyui from 'daisyui';
+import tailwindScrollbar from 'tailwind-scrollbar-daisyui';
+import tailwindTextFillStroke from 'tailwindcss-text-fill-stroke';
 
 const customThemes = {
-  // light: {
-  //   primary: '#9e0081',
-  //   secondary: '#fdbff2',
-  //   accent: '#e907bf',
-  //   neutral: '#f6e0f1',
-  //   'base-100': '#fee7f9',
-  //   info: '#3889fd',
-  //   success: '#00dd77',
-  //   warning: '#e84b00',
-  //   error: '#ff677e',
-  // },
-  // dark: {
-  //   primary: '#ff61e2',
-  //   secondary: '#400235',
-  //   accent: '#f816cf',
-  //   neutral: '#1f091a',
-  //   'base-100': '#180113',
-  // },
   light: {
     primary: '#e65cdc',
     secondary: '#fcacf6',
@@ -49,7 +33,8 @@ const customThemes = {
 };
 
 export default {
-  darkMode: ['class', '[data-theme="dark"]'],
+  // darkMode: ['class', '[data-theme="dark"]'],
+  darkMode: 'class',
   content: ['./src/**/*.{html,js,svelte,ts}'],
   safelist: [
     'dark',
@@ -60,9 +45,6 @@ export default {
     {
       pattern: /^col-span-./,
     },
-    // {
-    //   pattern: /^w-./,
-    // },
   ],
   theme: {
     container: {
@@ -72,9 +54,18 @@ export default {
         '2xl': '1400px',
       },
     },
-    extend: {},
+    extend: {
+      dropShadow: {
+        outline: [
+          '0 0 0 2px var(--tw-shadow-color)',
+          '0 0 0 4px var(--tw-ring-inset)',
+          '0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color)',
+          '0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color)',
+        ],
+      },
+    },
   },
-  plugins: [forms, typography, daisyui],
+  plugins: [forms, typography, daisyui, tailwindScrollbar, tailwindTextFillStroke],
   daisyui: {
     darkTheme: 'cosmic-noir', // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
@@ -83,6 +74,7 @@ export default {
     prefix: '', // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
     logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
     themeRoot: 'html', // The element that receives theme color CSS variables
-    themes: [{ ...customThemes }], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    // custom daisyUI themes
+    themes: [{ ...customThemes }, 'synthwave', 'pastel', 'valentine'], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
   },
 } satisfies Config;

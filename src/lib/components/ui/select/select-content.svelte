@@ -24,7 +24,8 @@
   {outTransition}
   {outTransitionConfig}
   class={cn(
-    'relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md outline-none',
+    // 'relative z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md outline-none',
+    '"p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52',
     className
   )}
   {...$$restProps}

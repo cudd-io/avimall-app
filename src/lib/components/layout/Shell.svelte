@@ -26,6 +26,7 @@
 <style lang="postcss">
   :global(#page) {
     overflow: auto;
+    scrollbar-gutter: stable both-edges !important;
 
     :global(main) {
       @apply flex-1;

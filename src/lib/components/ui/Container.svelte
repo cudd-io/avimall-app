@@ -10,7 +10,7 @@
     <slot />
   </div>
 {:else}
-  <div class="card max-w-[600px] mx-auto p-8 my-8 {className} bg-neutral">
+  <div class="card max-w-[600px] mx-auto p-8 my-8 {className} bg-glass">
     <slot />
   </div>
 {/if}

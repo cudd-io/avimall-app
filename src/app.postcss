@@ -30,16 +30,16 @@ body {
   background: none;
 }
 
+@media (prefers-reduced-motion) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 .bg-glass {
   @apply backdrop-blur-md bg-black/5 dark:bg-white/5;
-
-  /* &-dark {
-    @apply bg-black/5  dark:bg-black/5 backdrop-blur-md;
-  }
-
-  &-light {
-    @apply bg-white/5 dark:bg-white/5 backdrop-blur-md;
-  } */
 }
 
 .bg-glass-darker {

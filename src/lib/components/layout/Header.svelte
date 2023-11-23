@@ -57,7 +57,7 @@
   ];
 </script>
 
-<header class="navbar bg-glass border-b-base-300 text-secondary-content">
+<header class="navbar bg-glass border-b-base-300 text-base-content">
   <div class="flex-1">
     <a class="btn text-xl btn-ghost" href="/">Avatar Mall</a>
   </div>
@@ -104,6 +104,7 @@
 <style lang="postcss">
   header {
     position: relative;
+    view-transition-name: header;
   }
   /* #shadow {
     postion: absolute !important;

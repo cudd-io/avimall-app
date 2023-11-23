@@ -1,13 +1,13 @@
 export type ItemType = 'avatar' | 'accessory' | 'misc';
 
 export interface IBoothItemBase {
-  itemId: string;
+  itemId: string | number;
   title: string;
   description: string;
   mainImage: string;
   category: string;
   creator: string;
-  priceJPY: string;
+  priceJPY: number;
   type: ItemType;
   nsfw: boolean;
   tags?: string[];
