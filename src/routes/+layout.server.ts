@@ -1,12 +1,8 @@
 export const load = ({ locals, url }) => {
-  if (locals.user) {
-    return {
-      user: locals.user,
-    };
-  }
+  const user = locals.user || undefined;
 
   return {
     url: url.pathname,
-    user: undefined,
+    user,
   };
 };

@@ -5,6 +5,7 @@ export type Theme =
   | [themeName: string, lightOrDark: 'light' | 'dark']
   | [themeName: string, lightOrDark: 'light' | 'dark', defaultTheme: boolean];
 
+// Also remember to change this i app.html
 const themeLSKey = 'saved-theme';
 
 const themes: Theme[] = [

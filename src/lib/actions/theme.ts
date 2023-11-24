@@ -4,6 +4,7 @@ export default (element: HTMLElement, theme: Theme | null) => {
   if (!theme) {
     theme = getDefaultTheme();
   }
+
   console.log('new theme', theme);
   setDocumentTheme(theme, element);
 

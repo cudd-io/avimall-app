@@ -1,14 +1,16 @@
 <!-- Avatars Shop -->
 
 <script lang="ts">
-  import AvatarCard from './../../../lib/components/layout/mall/AvatarCard.svelte';
-  import { cn } from '$lib/utils';
-  import Breadcrumbs from '$lib/components/ui/breadcrumbs.svelte';
-  import Icon from '@iconify/svelte';
-  import { Button } from '$lib/components/ui/button';
-  import { AspectRatio } from '$lib/components/ui/aspect-ratio';
+  import Search from '$lib/components/layout/Search.svelte';
+  import { setContext, getContext, onDestroy } from 'svelte';
+  import { writable, type Writable } from 'svelte/store';
   import { flip } from 'svelte/animate';
+  import Icon from '@iconify/svelte';
+
   import type { BoothItem } from '$lib/types';
+  import { Button } from '$lib/components/ui/button';
+  import AvatarCard from '$lib/components/layout/mall/AvatarCard.svelte';
+  import { getBreadcrumbsStore } from '$lib/context/breadcrumbs-context';
 
   // placeholder avatars until I set up the API
   const avatars: BoothItem[] = [
@@ -153,7 +155,9 @@
     }
   };
 
-  const breadcrumbs = [
+  const breadcrumbs = getBreadcrumbsStore();
+
+  $breadcrumbs = [
     {
       name: 'Home',
       href: '/',
@@ -170,15 +174,33 @@
       icon: 'raphael:woman',
     },
   ];
+
+  onDestroy(() => {
+    $breadcrumbs = [];
+  });
+
+  let search = '';
 </script>
 
 <!-- Toolbar with grid size buttons and breadcrumbs -->
 <div
-  class="text-center h-auto bg-glass p-2 rounded-2xl text-neutral-content m-4 flex flex-row justify-between"
+  class="text-center h-auto bg-glass p-2 rounded-2xl text-neutral-content m-4 flex flex-row justify-start"
 >
-  <div class="flex-1 my-auto">
-    <Breadcrumbs links={breadcrumbs}></Breadcrumbs>
-  </div>
+  <!-- searchbar -->
+  <!-- <Input class="my-auto flex-1" bind:value={search} /> -->
+  <Search />
+  <!-- <input
+    name="search"
+    type="search"
+    placeholder="Search…"
+    autocomplete="off"
+    spellcheck="false"
+    id="typeahead-0.pklucnjagic"
+    aria-autocomplete="list"
+    aria-controls="typeahead-0.pklucnjagic-listbox"
+    aria-labelledby="typeahead-0.pklucnjagic-label"
+    class="svelte-wqugyy"
+  /> -->
   <div>
     <div class="text-center text-2xl w-full flex flex-row justify-end h-auto p-4 text-base-content">
       <Button

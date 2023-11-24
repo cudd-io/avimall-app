@@ -1,9 +1,14 @@
 <script lang="ts">
-  import { RailSidebar, GlobalSidebar } from '$lib/components';
+  import { type Writable } from 'svelte/store';
+  import type { MenuItem } from '$lib/types';
 
-  import { onNavigate } from '$app/navigation';
+  import { getContext, setContext } from 'svelte';
   import { fly } from 'svelte/transition';
-  import { page } from '$app/stores';
+  import { onNavigate } from '$app/navigation';
+
+  import { getBreadcrumbsStore, initBreadcrumbs } from '$lib/context/breadcrumbs-context';
+  import Breadcrumbs from '$lib/components/ui/breadcrumbs.svelte';
+  import { RailSidebar, GlobalSidebar } from '$lib/components';
 
   let fromPath: string | undefined;
   let toPath: string | undefined;
@@ -11,19 +16,12 @@
   onNavigate(({ from, to }) => {
     fromPath = from?.url.pathname;
     toPath = to?.url.pathname;
-
-    // if (!document.startViewTransition) return;
-    // return new Promise((resolve) => {
-    //   document.startViewTransition(async () => {
-    //     resolve();
-    //     await navigation.complete;
-    //   });
-    // });
   });
 
   export let data;
 
   const navLinks = [
+    { name: 'Home', href: '/mall', icon: 'mdi:home' },
     { name: 'Avatars', href: '/mall/avatars', icon: 'raphael:woman' },
     { name: 'Clothing', href: '/mall/clothing', icon: 'raphael:tshirt' },
     { name: 'Accessories', href: '/mall/accessories', icon: 'raphael:crown' },
@@ -56,11 +54,18 @@
     const page = document.getElementById('page');
     page?.classList.remove(className);
   };
+
+  initBreadcrumbs();
+  const breadcrumbs = getContext<Writable<MenuItem[]>>('breadcrumbs');
 </script>
 
 <GlobalSidebar>
   <RailSidebar {navLinks} />
 </GlobalSidebar>
+
+<div class="bg-glass p-2 rounded-lg m-4">
+  <Breadcrumbs links={$breadcrumbs}></Breadcrumbs>
+</div>
 
 {#key data.url}
   <div

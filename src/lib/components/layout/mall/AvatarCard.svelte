@@ -28,8 +28,6 @@
   )}
   style="background-image: url('{avatar.mainImage}');"
 >
-  <!-- <div aria-hidden class="flex-1"></div> -->
-
   <!-- Price and Favorite Button -->
   <div class="px-2 m-0 w-full flex flex-row justify-between transition-all text-secondary">
     <div class="px-2 flex flex-col justify-center text-black">
@@ -66,7 +64,7 @@
     /* transition:  0.3s; */
   }
 
-  @container (max-width: 250px) {
+  @container (max-width: 200px) {
     h3 {
       font-size: 1rem;
       margin: auto 0;

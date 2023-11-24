@@ -1,20 +1,10 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
   import type { MenuItem } from '$lib/types';
-  import { AppBar, popup, type PopupSettings } from '@skeletonlabs/skeleton';
-
-  import { Avatar } from '@skeletonlabs/skeleton';
   import UserMenu from './UserMenu.svelte';
   import { cn } from '$lib/utils';
 
   export let data: any;
-
-  // User Popup Menu
-  const userPopup: PopupSettings = {
-    event: 'click',
-    target: 'userPopup',
-    placement: 'bottom',
-  };
 
   let debug = false;
 
