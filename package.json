@@ -25,6 +25,7 @@
     "pb:win32": "./pb/bin/pocketbase-v0.19.4-win.exe serve",
     "pb:darwin": "./pb/bin/pocketbase-v0.19.4-mac serve",
     "pb:default": "echo 'Error: OS not supported' && exit 1",
+    "pb:types": "npx pocketbase-typegen --env --out ./src/lib/types/data/pocketbase-types.ts",
     "node-v": "node -v"
   },
   "devDependencies": {

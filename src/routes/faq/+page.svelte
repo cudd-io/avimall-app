@@ -1,13 +1,22 @@
 <script lang="ts">
   const questions = [
     {
-      question: 'What is the meaning of life?',
-      answer: '42',
+      question: `What's the point of this website?`,
+      answer: `Finding avatars and compatible outfits/accessories on Booth can often be a huge pain. 
+      This website is here to help by archiving items from Booth.pm and organizing them to make them easier to discover.`,
+    },
+    {
+      question: `Can you remove my avatars from the website?`,
+      answer: `
+Absolutely! Please contact me at [my email here] with a link to your avatar and some form of proof of ownership. 
+Please keep in mind, though, that we do not store or link to avatar downloads from the website. 
+We only direct people to purchase your avatar from your Booth.pm store`,
     },
     {
       question: 'How do I reset my password?',
-      answer:
-        'You can reset your password by clicking on the "Forgot Password" link and following the instructions.',
+      answer: `
+You can reset your password by clicking on the "Forgot Password" link on the login page and following the instructions. 
+If you've lost access to the email address used, please contact me at [my email here] with some sort of proof that the account belongs to you.`,
     },
     {
       question: 'How do I update my profile picture?',
@@ -15,13 +24,8 @@
         'To update your profile picture, go to your account settings and click on the "Edit Profile Picture" button.',
     },
     {
-      question: 'What are the accepted payment methods?',
-      answer: 'We accept credit cards, PayPal, and Apple Pay for payment.',
-    },
-    {
-      question: 'How can I contact customer support?',
-      answer:
-        'You can contact our customer support team by sending an email to support@example.com or by calling our toll-free number.',
+      question: 'How do I download the avatars?',
+      answer: `We don't store any avatars on our servers. Each avatar and accessory has a link to the Booth page where you can purchase and download it.`,
     },
   ];
 </script>

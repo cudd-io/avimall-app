@@ -50,8 +50,6 @@ export const GET = async ({ locals, request }) => {
       .collection('shops')
       .getFirstListItem(`subdomain="${boothData.shop?.subdomain}"`);
   } catch (error) {
-    console.log(`Not found: ${boothData.shop?.subdomain}`);
-    // shop = {} as any;
     shop = await pb.collection('shops').create({
       id: createPbID(`${boothData.shop?.subdomain}`),
       name: boothData.shop?.name,
@@ -65,7 +63,6 @@ export const GET = async ({ locals, request }) => {
       .collection('categories')
       .getFirstListItem(`name="${boothData.category?.name}"`);
   } catch (error) {
-    console.log(`Not found: ${boothData.category?.name}`);
     category = await pb.collection('categories').create({
       id: createPbID(`${boothData.category?.id}`),
       name: boothData.category?.name,
@@ -104,7 +101,6 @@ export const GET = async ({ locals, request }) => {
             },
           }
         );
-        console.log(translated.response.translated_text, translated);
         data[field] = translated.response.translated_text;
       }
     }
