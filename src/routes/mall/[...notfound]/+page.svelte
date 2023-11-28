@@ -1,4 +1,25 @@
 <script lang="ts">
+  import { getBreadcrumbsStore } from '$lib/context/breadcrumbs-context';
+
+  const breadcrumbs = getBreadcrumbsStore();
+
+  $breadcrumbs = [
+    {
+      name: 'Home',
+      href: '/',
+      icon: 'mdi:home',
+    },
+    {
+      name: 'Mall',
+      href: '/mall',
+      icon: 'mdi:store',
+    },
+    {
+      name: 'Not found',
+      href: '/mall',
+      icon: 'material-symbols:error-outline',
+    },
+  ];
 </script>
 
 <div class="card m-4 p-4 text-center justify-center container mx-auto">

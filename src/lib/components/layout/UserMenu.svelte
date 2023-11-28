@@ -35,7 +35,7 @@
   <DropdownMenu.Trigger class="btn btn-ghost btn-circle avatar mx-4 p-0" on:click>
     <img src="https://placewaifu.com/image/256" alt="" class="w-full rounded-full m-0" />
   </DropdownMenu.Trigger>
-  <DropdownMenu.Content class="w-44 bg-glass-darker dark:text-neutral-content ">
+  <DropdownMenu.Content class="w-44 card-glass-darker m-0 dark:text-neutral-content ">
     {#if !data.user.verified || debug}
       <DropdownMenu.Label class="text-sm text-center text-error-content bg-error rounded-lg mb-2"
         >Please check email to verify account</DropdownMenu.Label

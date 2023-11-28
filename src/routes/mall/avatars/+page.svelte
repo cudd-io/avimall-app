@@ -1,23 +1,21 @@
 <!-- Avatars Shop -->
 
 <script lang="ts">
+  import Pagination from './../../../lib/components/ui/pagination.svelte';
   import Search from '$lib/components/layout/Search.svelte';
-  import { setContext, getContext, onDestroy } from 'svelte';
-  import { writable, type Writable } from 'svelte/store';
+  import { onDestroy } from 'svelte';
   import { flip } from 'svelte/animate';
   import Icon from '@iconify/svelte';
 
-  import type { BoothItem } from '$lib/types';
   import { Button } from '$lib/components/ui/button';
   import AvatarCard from '$lib/components/layout/mall/AvatarCard.svelte';
   import { getBreadcrumbsStore } from '$lib/context/breadcrumbs-context';
-  import type { AvatarsResponseExpanded } from '$lib/types/data/api/avatars';
 
   export let data;
 
   $: ({ avatars } = data);
 
-  $: ({ page, perPage, totalPages, totalItems } = avatars);
+  $: ({ page, perPage, totalPages } = avatars);
 
   const gridSteps = ['150px', '200px', '250px', '350px'];
 
@@ -59,17 +57,11 @@
     },
   ];
 
-  onDestroy(() => {
-    $breadcrumbs = [];
-  });
-
   let search = '';
 </script>
 
 <!-- Toolbar with grid size buttons and breadcrumbs -->
-<div
-  class="text-center h-auto bg-glass p-2 rounded-2xl text-neutral-content m-4 flex flex-row justify-start"
->
+<div class="card-glass px-4 text-center h-auto text-neutral-content flex flex-row justify-start">
   <!-- searchbar -->
   <!-- <Input class="my-auto flex-1" bind:value={search} /> -->
   <Search />
@@ -95,7 +87,7 @@
   </div>
 </div>
 
-<section class="bg-glass m-4 rounded-2xl p-4">
+<section class="card-glass p-4">
   <h2 class="text-2xl mb-4">Avatars</h2>
   <ul
     class="h-auto grid gap-4"
@@ -111,48 +103,4 @@
   </ul>
 </section>
 
-<ol class="pagination join">
-  <!-- pagination -->
-  <li>
-    <a href="/mall/avatars?page=0&limit={perPage}" class="join-item btn btn-ghost btn-sm">
-      <Icon icon="mdi:chevron-double-left" />
-    </a>
-  </li>
-  <li>
-    <a
-      href="/mall/avatars?page={page - 1}&limit={perPage}"
-      class="join-item btn btn-ghost btn-sm"
-      class:btn-disabled={page === 1}
-    >
-      <Icon icon="mdi:chevron-left" />
-    </a>
-  </li>
-  {#each Array(totalPages) as _, i}
-    <li>
-      <a
-        href="/mall/avatars?page={i + 1}&limit={perPage}"
-        class="join-item btn btn-ghost btn-sm"
-        class:btn-active={i + 1 === page}
-      >
-        {i + 1}
-      </a>
-    </li>
-  {/each}
-  <li>
-    <a
-      href="/mall/avatars?page={page + 1}&limit={perPage}"
-      class="join-item btn btn-ghost btn-sm"
-      class:btn-disabled={page === totalPages}
-    >
-      <Icon icon="mdi:chevron-right" />
-    </a>
-  </li>
-  <li>
-    <a
-      href="/mall/avatars?page={totalPages}&limit={perPage}"
-      class="join-item btn btn-ghost btn-sm"
-    >
-      <Icon icon="mdi:chevron-double-right" />
-    </a>
-  </li>
-</ol>
+<Pagination class="card-glass" currentPage={page} {perPage} {totalPages} />

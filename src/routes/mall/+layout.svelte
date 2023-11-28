@@ -63,7 +63,7 @@
   <RailSidebar {navLinks} />
 </GlobalSidebar>
 
-<div class="bg-glass p-2 rounded-lg m-4">
+<div class="card-glass">
   <Breadcrumbs links={$breadcrumbs}></Breadcrumbs>
 </div>
 

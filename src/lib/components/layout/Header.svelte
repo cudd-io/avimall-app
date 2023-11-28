@@ -49,7 +49,10 @@
 
 <header class="navbar bg-glass border-b-base-300 text-base-content">
   <div class="flex-1">
-    <a class="btn text-xl btn-ghost" href="/">Avatar Mall</a>
+    <a class="btn text-xl btn-ghost" href="/">
+      <Icon class="mt-1" icon="bi:headset-vr" width="24" aria-label="Avatar Mall Logo" />
+      <span class="my-auto">Avatar Mall</span>
+    </a>
   </div>
 
   <!-- Menu Bar Items -->

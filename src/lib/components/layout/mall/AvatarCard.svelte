@@ -42,9 +42,10 @@
   href="/mall/avatars/{avatar.booth_id}"
   class={cn(
     'group relative block rounded-2xl overflow-hidden',
-    'aspect-square',
-    'bg-contain bg-repeat-y  bg-left-top flex flex-col justify-between shadow-md shadow-purple-950/50',
-    ' hover:shadow-lg hover:shadow-purple-950/50 border-0 dark:brightness-75 border-transparent hover:filter dark:hover:brightness-100'
+    'aspect-[4/5]',
+    'bg-contain bg-repeat-y bg-left-top flex flex-col justify-between shadow-md shadow-purple-950/50',
+    'hover:shadow-lg hover:shadow-purple-950/50 border-0 dark:brightness-75 border-transparent hover:filter dark:hover:brightness-100',
+    'hover:scale-105'
   )}
   style="background-image: url('{boothData.images[0].original}');"
 >
@@ -56,7 +57,7 @@
       >
     </div>
     <Button
-      class="btn-ghost btn-md text-accent btn-circle hover:backdrop-blur-sm hover:bg-accent/30"
+      class="btn-ghost btn-md text-error btn-circle hover:backdrop-blur-sm hover:bg-error/30"
       on:click={(event) => setFavorite(event)}
     >
       <Icon
