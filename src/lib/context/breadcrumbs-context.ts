@@ -10,3 +10,7 @@ export const initBreadcrumbs = (initialValue: MenuItem[] = []) => {
 export const getBreadcrumbsStore = () => {
   return getContext<Writable<MenuItem[]>>('breadcrumbs');
 };
+
+export const registerBreadcrumbs = (value: MenuItem[]) => {
+  getBreadcrumbsStore().set(value);
+};

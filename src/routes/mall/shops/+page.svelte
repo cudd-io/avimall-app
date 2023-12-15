@@ -7,9 +7,15 @@
       href: '/mall',
       icon: 'mdi:home',
     },
+    {
+      name: 'Shops',
+      href: '/mall/shops',
+      icon: 'mdi:store',
+    },
   ]);
 </script>
 
-<h2 class="text-2xl w-full text-center">Avatar Mall - Home</h2>
+<h2 class="text-2xl w-full text-center">Shops</h2>
 
-<p class="text-md card-glass p-4"><span class="font-bold">TODO:</span> Create home page</p>
+<style lang="postcss">
+</style>

@@ -30,19 +30,22 @@
   ];
 
   const loggedInMenuBar: MenuItem[] = [
-    // bulk import
-    {
-      name: 'Import',
-      href: '/tools/bulk-import',
-      classes: 'btn-ghost',
-      icon: 'solar:import-bold',
-    },
     // Favorites
     {
       name: 'Favoritesss',
       href: '/my/favorites',
       classes: 'btn-ghost',
       icon: 'mdi:heart-outline',
+    },
+  ];
+
+  const adminMenuBar: MenuItem[] = [
+    // bulk import
+    {
+      name: 'Import',
+      href: '/tools/bulk-import',
+      classes: 'btn-ghost',
+      icon: 'solar:import-bold',
     },
   ];
 </script>
@@ -66,6 +69,7 @@
         {/if}
       </a>
     {/each}
+
     {#if !data.user}
       {#each loggedOutMenuBar as item}
         <a href={item.href} class={cn('btn', item.classes)} class:btn-circle={item.icon}>
@@ -77,6 +81,17 @@
         </a>
       {/each}
     {:else}
+      {#if data.user.admin}
+        {#each adminMenuBar as item}
+          <a href={item.href} class={cn('btn', item.classes)} class:btn-circle={item.icon}>
+            {#if item.icon}
+              <Icon icon={`${item.icon}`} width="24" aria-label={item.name} />
+            {:else}
+              {item.name}
+            {/if}
+          </a>
+        {/each}
+      {/if}
       {#each loggedInMenuBar as item}
         <a href={item.href} class={cn('btn', item.classes)} class:btn-circle={item.icon}>
           {#if item.icon}

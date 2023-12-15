@@ -90,6 +90,7 @@ export type TagsRecord = {
 export type UsersRecord = {
 	admin?: boolean
 	avatar?: string
+	favorites?: RecordIdString[]
 	name?: string
 }
 

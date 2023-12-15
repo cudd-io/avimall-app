@@ -2,11 +2,11 @@
   import { type Writable } from 'svelte/store';
   import type { MenuItem } from '$lib/types';
 
-  import { getContext, setContext } from 'svelte';
+  import { getContext } from 'svelte';
   import { fly } from 'svelte/transition';
   import { onNavigate } from '$app/navigation';
 
-  import { getBreadcrumbsStore, initBreadcrumbs } from '$lib/context/breadcrumbs-context';
+  import { initBreadcrumbs } from '$lib/context/breadcrumbs-context';
   import Breadcrumbs from '$lib/components/ui/breadcrumbs.svelte';
   import { RailSidebar, GlobalSidebar } from '$lib/components';
 
@@ -23,9 +23,10 @@
   const navLinks = [
     { name: 'Home', href: '/mall', icon: 'mdi:home' },
     { name: 'Avatars', href: '/mall/avatars', icon: 'raphael:woman' },
-    { name: 'Clothing', href: '/mall/clothing', icon: 'raphael:tshirt' },
-    { name: 'Accessories', href: '/mall/accessories', icon: 'raphael:crown' },
-    { name: 'Misc', href: '/mall/misc', icon: 'raphael:fullcube' },
+    { name: 'Accessories', href: '/mall/accessories', icon: 'raphael:tshirt' },
+    { name: 'Creators', href: '/mall/shops', icon: 'mdi:store' },
+    // { name: 'Clothing', href: '/mall/clothing', icon: 'raphael:tshirt' },
+    // { name: 'Misc', href: '/mall/misc', icon: 'raphael:fullcube' },
   ];
 
   $: fromIndex = navLinks.findIndex((link) => link.href === fromPath);

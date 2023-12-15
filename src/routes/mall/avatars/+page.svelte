@@ -3,13 +3,9 @@
 <script lang="ts">
   import Pagination from './../../../lib/components/ui/pagination.svelte';
   import Search from '$lib/components/layout/Search.svelte';
-  import { onDestroy } from 'svelte';
-  import { flip } from 'svelte/animate';
-  import Icon from '@iconify/svelte';
-
-  import { Button } from '$lib/components/ui/button';
-  import AvatarCard from '$lib/components/layout/mall/AvatarCard.svelte';
-  import { getBreadcrumbsStore } from '$lib/context/breadcrumbs-context';
+  import { registerBreadcrumbs } from '$lib/context/breadcrumbs-context';
+  import { fade } from 'svelte/transition';
+  import ItemsGrid from '$lib/components/layout/mall/ItemsGrid.svelte';
 
   export let data;
 
@@ -17,47 +13,20 @@
 
   $: ({ page, perPage, totalPages } = avatars);
 
-  const gridSteps = ['150px', '200px', '250px', '350px'];
-
-  let currentGridSize = 1;
-
-  $: console.log(currentGridSize);
-
-  $: gridZoomOut = () => {
-    console.log('decGridSize', currentGridSize, currentGridSize > 0);
-    if (currentGridSize > 0) {
-      currentGridSize--;
-    }
-  };
-
-  $: gridZoomIn = () => {
-    console.log('incGridSize', currentGridSize, currentGridSize < gridSteps.length - 1);
-    if (currentGridSize < gridSteps.length - 1) {
-      currentGridSize++;
-    }
-  };
-
-  const breadcrumbs = getBreadcrumbsStore();
-
-  $breadcrumbs = [
+  registerBreadcrumbs([
     {
       name: 'Home',
-      href: '/',
-      icon: 'mdi:home',
-    },
-    {
-      name: 'Mall',
       href: '/mall',
-      icon: 'mdi:store',
+      icon: 'mdi:home',
     },
     {
       name: 'Avatars',
       href: '/mall/avatars',
       icon: 'raphael:woman',
     },
-  ];
+  ]);
 
-  let search = '';
+  let transitionDuration = 250;
 </script>
 
 <!-- Toolbar with grid size buttons and breadcrumbs -->
@@ -66,41 +35,20 @@
   <!-- <Input class="my-auto flex-1" bind:value={search} /> -->
   <Search />
   <div>
-    <div class="text-center text-2xl w-full flex flex-row justify-end h-auto p-4 text-base-content">
-      <Button
-        class="btn-ghost btn-sm"
-        name="sm"
-        on:click={gridZoomOut}
-        disabled={currentGridSize === 0}
-      >
-        <Icon class=" h-full w-full" icon="mdi:zoom-out" />
-      </Button>
-      <Button
-        class="btn-ghost btn-sm"
-        name="md"
-        on:click={gridZoomIn}
-        disabled={currentGridSize === gridSteps.length - 1}
-      >
-        <Icon class=" h-full w-full" icon="mdi:zoom-in" />
-      </Button>
-    </div>
+    <!-- <div class="text-center text-2xl w-full flex flex-row justify-end h-auto p-4 text-base-content">
+
+    </div> -->
   </div>
 </div>
 
-<section class="card-glass p-4">
-  <h2 class="text-2xl mb-4">Avatars</h2>
-  <ul
-    class="h-auto grid gap-4"
-    style={`
-    grid-template-columns: repeat(auto-fit, minmax(${gridSteps[currentGridSize]}, 1fr));
-  `}
+{#key page}
+  <section
+    class="card-glass p-4"
+    in:fade={{ duration: transitionDuration, delay: transitionDuration }}
+    out:fade={{ duration: 0 }}
   >
-    {#each avatars.items as avatar, index (avatar.booth_id)}
-      <li animate:flip>
-        <AvatarCard {avatar} />
-      </li>
-    {/each}
-  </ul>
-</section>
+    <ItemsGrid items={avatars.items} />
+  </section>
+{/key}
 
 <Pagination class="card-glass" currentPage={page} {perPage} {totalPages} />

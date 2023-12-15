@@ -1,6 +1,5 @@
 <script lang="ts" context="module">
   // import type { BoothItem } from '$lib/types';
-  import type { IApiAvatarCreate } from '$lib/types/data/api/avatars';
   import { Switch } from '$lib/components/ui/switch';
   import { Textarea } from '$lib/components/ui/textarea';
   import { Button } from '$lib/components/ui/button';
@@ -16,7 +15,7 @@
     translated: RequestStatus;
     fetched: RequestStatus;
     showMore: boolean;
-    item: IApiAvatarCreate;
+    item: any;
   };
 
   enum RequestStatus {
@@ -71,7 +70,7 @@
         price_jpy: 0,
         images: [],
         booth_data: {},
-      } as IApiAvatarCreate,
+      } as any,
     };
   };
 

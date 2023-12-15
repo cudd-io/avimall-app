@@ -1,28 +1,14 @@
 <script lang="ts">
   import { Button } from '$lib/components/ui/button';
+  import type { ItemsResponseExpanded } from '$lib/types/data/api/avatars.ts';
   import type { BoothItem } from '$lib/types';
   import type { BoothItemApiResponse } from '$lib/types/booth/api-types';
-  import type {
-    AvatarsResponse,
-    CategoriesResponse,
-    ItemsResponse,
-    ShopsResponse,
-    UsersResponse,
-  } from '$lib/types/data/pocketbase-types';
+  import type { ItemsResponse } from '$lib/types/data/pocketbase-types';
   import { cn } from '$lib/utils';
   import { formatMoney } from '$lib/utils/money';
   import Icon from '@iconify/svelte';
 
-  type TExpand = {
-    booth_item: ItemsResponse;
-    shop: ShopsResponse;
-    category: CategoriesResponse;
-    imported_by: UsersResponse;
-  };
-
-  type AvatarsResponseExpanded = AvatarsResponse<TExpand>;
-
-  export let avatar: AvatarsResponseExpanded;
+  export let item: ItemsResponseExpanded | ItemsResponse;
 
   const setFavorite = (event: Event, newFavoriteValue: boolean | null = null) => {
     event.preventDefault();
@@ -32,20 +18,18 @@
   };
   let favorite: boolean = false;
 
-  // $: formattedPrice = formatMoney(avatar., 'JPY');
-  const boothData: BoothItemApiResponse = avatar.expand?.booth_item
-    ?.booth_data as any as BoothItemApiResponse;
-  $: formattedPrice = formatMoney(avatar.expand?.booth_item?.price ?? 0, 'JPY');
+  const boothData: BoothItemApiResponse = item?.booth_data as any as BoothItemApiResponse;
+  $: formattedPrice = formatMoney(item.price ?? 0, 'JPY');
 </script>
 
 <a
-  href="/mall/avatars/{avatar.booth_id}"
+  href="/mall/avatars/{item.booth_id}"
   class={cn(
     'group relative block rounded-2xl overflow-hidden',
     'aspect-[4/5]',
     'bg-contain bg-repeat-y bg-left-top flex flex-col justify-between shadow-md shadow-purple-950/50',
     'hover:shadow-lg hover:shadow-purple-950/50 border-0 dark:brightness-75 border-transparent hover:filter dark:hover:brightness-100',
-    'hover:scale-105'
+    'hover:scale-105 active:scale-95 active:shadow-md '
   )}
   style="background-image: url('{boothData.images[0].original}');"
 >
@@ -69,11 +53,7 @@
 
   <!-- Card Info -->
   <div class="w-full p-2 bg-base-100/50 backdrop-blur-md text-base-content h-[35%] flex flex-col">
-    <h3 class="text-xl font-medium">{avatar.name}</h3>
-
-    <!-- <p class="mt-2 text-xs truncate max-h-64 flex-1">
-      {@html avatar.expand?.booth_item.description}
-    </p> -->
+    <h3 class="text-xl font-medium">{item.name}</h3>
   </div>
 </a>
 

@@ -16,7 +16,7 @@
         {#if link.icon}
           <Icon icon={`${link.icon}`} class="flex-shrink-0 mx-1" aria-hidden="true" />
         {/if}
-        <a href={link.href}>{link.name}</a>
+        <a class="rounded-lg" href={link.href}>{link.name}</a>
       </li>
     {/each}
   </ol>
