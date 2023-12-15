@@ -8,7 +8,7 @@ import type { SuperValidated } from 'formsnap';
 
 export const load: PageServerLoad = async ({ locals }) => {
   if (locals.user) {
-    throw redirect(303, '/my/settings');
+    redirect(303, '/my/settings');
   }
 
   const form = await superValidate(registerSchema, {});
@@ -32,7 +32,7 @@ export const actions: Actions = {
     }
 
     // Successfully created user and logged in, redirect to home
-    throw redirect(303, '/');
+    redirect(303, '/');
   },
 };
 

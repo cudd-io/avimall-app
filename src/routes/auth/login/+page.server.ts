@@ -5,7 +5,7 @@ import { loginSchema } from './schema';
 
 export const load = async ({ locals }) => {
   if (locals.user) {
-    throw redirect(303, '/my/settings');
+    redirect(303, '/my/settings');
   }
 
   const form = await superValidate(loginSchema, {});
@@ -30,7 +30,7 @@ export const actions: Actions = {
     }
 
     // Successfully logged in, redirect to home
-    throw redirect(303, '/');
+    redirect(303, '/');
   },
 };
 

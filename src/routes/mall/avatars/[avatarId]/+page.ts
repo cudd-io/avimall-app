@@ -12,6 +12,6 @@ export const load = async ({ params, fetch }) => {
       avatar,
     };
   } catch (error) {
-    throw redirect(307, '/mall/avatars');
+    redirect(307, '/mall/avatars');
   }
 };
