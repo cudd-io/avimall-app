@@ -1,6 +1,6 @@
 import { Collections } from '$lib/types/data/pocketbase-types';
 import type { AvatarsResponseExpanded } from '$lib/types/data/api/avatars';
-import { redirect } from '@sveltejs/kit';
+
 import type PocketBase from 'pocketbase';
 
 export const GET = async ({ locals, url }) => {

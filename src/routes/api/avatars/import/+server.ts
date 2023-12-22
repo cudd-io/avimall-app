@@ -1,7 +1,7 @@
-import type { IAvatarCreate, IItemCreate } from '$lib/types/data/api/avatars';
+import type { BoothItemApiResponse } from '$lib/types/booth/api-types';
+import type { ItemsRecord, AvatarsRecord, ItemsResponse } from '$lib/types/data/pocketbase-types';
 import { getBoothItem } from '$lib/utils/booth/api';
-import { createPbID } from '$lib/utils/data';
-import axios from 'axios';
+// import axios from 'axios';
 import type PocketBase from 'pocketbase';
 
 // This should be a POST request, but for now I'm using a GET request to test the API more easily
@@ -14,17 +14,16 @@ const parsePriceString = (price: string): number => {
   return parseFloat(price.replace(',', '').replace(' JPY', ''));
 };
 
-export const GET = async ({ locals, request }) => {
+export const GET = async ({ locals, request, fetch }) => {
   if (!locals.user) {
-    return new Response('Unauthorized', {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
     });
   }
   const { pb }: { pb: PocketBase } = locals;
-  // Get booth_id from url
+
   const url = new URL(request.url);
   const booth_id = url.searchParams.get('booth_id');
-  // const name = url.searchParams.get('name');
   const translate: boolean = !!url.searchParams.get('translate');
 
   const dataFromUrl = {
@@ -39,39 +38,13 @@ export const GET = async ({ locals, request }) => {
     });
   }
 
-  const pb_id = createPbID(booth_id);
-
   const boothData = await getBoothItem(booth_id, false);
   const fieldsToTranslate = ['name', 'description'] as const;
 
-  let shop;
-  try {
-    shop = await pb
-      .collection('shops')
-      .getFirstListItem(`subdomain="${boothData.shop?.subdomain}"`);
-  } catch (error) {
-    shop = await pb.collection('shops').create({
-      id: createPbID(`${boothData.shop?.subdomain}`),
-      name: boothData.shop?.name,
-      subdomain: boothData.shop?.subdomain,
-    });
-  }
+  const shop = await getOrCreateShop(pb, boothData);
+  const category = await getOrCreateCategory(pb, boothData);
 
-  let category;
-  try {
-    category = await pb
-      .collection('categories')
-      .getFirstListItem(`name="${boothData.category?.name}"`);
-  } catch (error) {
-    category = await pb.collection('categories').create({
-      id: createPbID(`${boothData.category?.id}`),
-      name: boothData.category?.name,
-      booth_id: boothData.category?.id,
-    });
-  }
-
-  const data: IItemCreate = {
-    id: pb_id,
+  const data: ItemsRecord = {
     booth_id: parseInt(booth_id),
     name: boothData.name,
     description: boothData.description,
@@ -81,58 +54,118 @@ export const GET = async ({ locals, request }) => {
     shop: shop!.id,
     imported_by: locals.user.id,
     booth_data: boothData,
+    images: boothData.images || [],
+  };
+
+  const updateData: Partial<ItemsRecord> = {
+    images: boothData.images || [],
+    price: parsePriceString(boothData.price),
   };
 
   if (translate) {
     for (const field of fieldsToTranslate) {
-      if (!!dataFromUrl[field]) {
-        // Should never be null since we already checked for null, but TypeScript is still complaining
+      if (dataFromUrl[field]) {
+        // Should never be falsy since we already checked, but TypeScript is still complaining
         data[field] = dataFromUrl[field] || '';
         continue;
       }
       if (boothData[field]) {
-        const { data: translated } = await axios.get(
-          `https://665.uncovernet.workers.dev/translate`,
-          {
-            params: {
-              text: boothData[field],
-              source_lang: 'ja',
-              target_lang: 'en',
-            },
-          }
-        );
+        const translated = await fetch(`https://665.uncovernet.workers.dev/translate`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: boothData[field],
+            source_lang: 'ja',
+            target_lang: 'en',
+          }),
+        }).then((res) => res.json());
         data[field] = translated.response.translated_text;
       }
     }
   }
 
   try {
-    const createdItem = await pb.collection('items').create(data);
+    const [createdItem, avatar] = await createAvatar(pb, data, updateData, boothData.category?.id);
 
-    // Create avatar if it doesn't exist and item category is 208
-    if (boothData.category?.id === 208) {
-      let avatar: IAvatarCreate;
-      try {
-        avatar = await pb
-          .collection('avatars')
-          .getFirstListItem(`booth_id="${createdItem.booth_id}"`);
-      } catch (error) {
-        avatar = await pb.collection('avatars').create({
-          id: createPbID(`${createdItem.booth_id}`),
-          name: createdItem.name,
-          booth_id: createdItem.booth_id,
-          booth_item: createdItem.id,
-        });
-      }
-
-      return new Response(JSON.stringify({ ...avatar, item: createdItem }, null, 2), {
-        status: 200,
-      });
-    }
-
-    return new Response(JSON.stringify(createdItem, null, 2), { status: 200 });
+    return new Response(JSON.stringify({ item: createdItem, avatar }, null, 2), { status: 200 });
   } catch (error: any) {
     console.error(`Error: ${error.message}`);
     return new Response(JSON.stringify(error, null, 2), { status: 400 });
   }
+};
+
+const getOrCreateShop = async (pb: PocketBase, boothData: BoothItemApiResponse) => {
+  try {
+    const shop = await pb
+      .collection('shops')
+      .getFirstListItem(`subdomain="${boothData.shop?.subdomain}"`);
+
+    // Update shop thumbnail and url
+    await pb.collection('shops').update(shop.id, {
+      thumbnail_url: boothData.shop?.thumbnail_url,
+      url: boothData.shop?.url,
+    });
+    return shop;
+  } catch (error) {
+    const shop = await pb.collection('shops').create({
+      name: boothData.shop?.name,
+      subdomain: boothData.shop?.subdomain,
+      thumbnail_url: boothData.shop?.thumbnail_url,
+      url: boothData.shop?.url,
+    });
+    return shop;
+  }
+};
+
+const getOrCreateCategory = async (pb: PocketBase, boothData: BoothItemApiResponse) => {
+  try {
+    const category = await pb
+      .collection('categories')
+      .getFirstListItem(`name="${boothData.category?.name}"`);
+
+    return category;
+  } catch (error) {
+    const category = await pb.collection('categories').create({
+      name: boothData.category?.name,
+      booth_id: boothData.category?.id,
+    });
+    return category;
+  }
+};
+
+const createAvatar = async (
+  pb: PocketBase,
+  data: ItemsRecord,
+  updateData: Partial<ItemsRecord>,
+  categoryId: number
+): Promise<[ItemsResponse, AvatarsRecord | null]> => {
+  let createdItem: ItemsResponse;
+  try {
+    createdItem = await pb.collection('items').create<ItemsResponse>(data);
+  } catch (error: any) {
+    createdItem = await pb.collection('items').getFirstListItem(`booth_id="${data.booth_id}"`);
+    await pb.collection('items').update(createdItem.id, updateData);
+  }
+
+  // Create avatar if it doesn't exist and item category is 208
+  if (categoryId === 208) {
+    let avatar: AvatarsRecord;
+    try {
+      avatar = await pb
+        .collection('avatars')
+        .getFirstListItem(`booth_id="${createdItem.booth_id}"`);
+    } catch (error) {
+      avatar = await pb.collection('avatars').create({
+        name: createdItem.name,
+        booth_id: createdItem.booth_id,
+        booth_item: createdItem.id,
+      });
+    }
+
+    return [createdItem, avatar];
+  }
+
+  return [createdItem, null];
 };

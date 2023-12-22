@@ -63,11 +63,12 @@ export type CategoriesRecord = {
 	name?: string
 }
 
-export type ItemsRecord<Tbooth_data = unknown> = {
+export type ItemsRecord<Tbooth_data = unknown, Timages = unknown> = {
 	booth_data: null | Tbooth_data
 	booth_id: number
 	category: RecordIdString
 	description: HTMLString
+	images?: null | Timages
 	imported_by: RecordIdString
 	is_adult?: boolean
 	name: string
@@ -92,13 +93,14 @@ export type UsersRecord = {
 	avatar?: string
 	favorites?: RecordIdString[]
 	name?: string
+	owned?: RecordIdString[]
 }
 
 // Response types include system fields and match responses from the PocketBase API
 export type AccessoriesResponse<Texpand = unknown> = Required<AccessoriesRecord> & BaseSystemFields<Texpand>
 export type AvatarsResponse<Texpand = unknown> = Required<AvatarsRecord> & BaseSystemFields<Texpand>
 export type CategoriesResponse<Texpand = unknown> = Required<CategoriesRecord> & BaseSystemFields<Texpand>
-export type ItemsResponse<Tbooth_data = unknown, Texpand = unknown> = Required<ItemsRecord<Tbooth_data>> & BaseSystemFields<Texpand>
+export type ItemsResponse<Tbooth_data = unknown, Timages = unknown, Texpand = unknown> = Required<ItemsRecord<Tbooth_data, Timages>> & BaseSystemFields<Texpand>
 export type ShopsResponse<Texpand = unknown> = Required<ShopsRecord> & BaseSystemFields<Texpand>
 export type TagsResponse<Texpand = unknown> = Required<TagsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>

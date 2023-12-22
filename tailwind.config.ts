@@ -33,18 +33,17 @@ const customThemes = {
 };
 
 export default {
-  // darkMode: ['class', '[data-theme="dark"]'],
   darkMode: 'class',
   content: ['./src/**/*.{html,js,svelte,ts}'],
   safelist: [
     'dark',
-    {
-      pattern: /^bg-./,
-      variants: ['hover', 'focus'],
-    },
-    {
-      pattern: /^col-span-./,
-    },
+    // {
+    //   pattern: /^bg-./,
+    //   variants: ['hover', 'focus'],
+    // },
+    // {
+    //   pattern: /^col-span-./,
+    // },
   ],
   theme: {
     container: {
