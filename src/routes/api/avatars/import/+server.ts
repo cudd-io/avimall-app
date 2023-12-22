@@ -102,6 +102,7 @@ const getOrCreateShop = async (pb: PocketBase, boothData: BoothItemApiResponse) 
       .collection('shops')
       .getFirstListItem(`subdomain="${boothData.shop?.subdomain}"`);
 
+    console.log('updating shop', shop.id);
     // Update shop thumbnail and url
     await pb.collection('shops').update(shop.id, {
       thumbnail_url: boothData.shop?.thumbnail_url,
@@ -109,6 +110,7 @@ const getOrCreateShop = async (pb: PocketBase, boothData: BoothItemApiResponse) 
     });
     return shop;
   } catch (error) {
+    console.log('creating shop', boothData.shop?.subdomain);
     const shop = await pb.collection('shops').create({
       name: boothData.shop?.name,
       subdomain: boothData.shop?.subdomain,

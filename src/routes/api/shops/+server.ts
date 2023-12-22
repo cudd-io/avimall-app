@@ -11,8 +11,4 @@ export const GET = async ({ locals, url }) => {
 
   const shops = await getShops(page, limit);
   return new Response(JSON.stringify(shops));
-
-  // return new Response('Not implemented', {
-  //   status: 501,
-  // });
 };

@@ -2,12 +2,20 @@ import type PocketBase from 'pocketbase';
 import { cheerioFromURL } from '$lib/utils';
 
 export const GET = async ({ locals, url, fetch }) => {
-  const { pb }: { pb: PocketBase } = locals;
+  if (!locals.user) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+    });
+  }
+
   const shop_id = url.searchParams.get('shop_id');
   const shop_url = `https://${shop_id}.booth.pm`;
 
+  console.log('importing shop', shop_url);
+
   const shopItems = await getItemIdsFromPage(shop_url);
 
+  console.log('shopItems', shopItems);
   // import items
   const items = await Promise.all(
     shopItems.map(async (item) => {
