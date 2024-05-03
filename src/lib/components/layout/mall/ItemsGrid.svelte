@@ -12,6 +12,7 @@
   import ItemCard from '$lib/components/layout/mall/ItemCard.svelte';
   import { clamp } from '@svelteuidev/composables';
   import type { ItemsResponse } from '$lib/types/data/pocketbase-types';
+  import { ArrowDown, ArrowUp } from 'lucide-svelte';
 
   type ItemType = AvatarsResponseExpanded | ItemsResponseExpanded | AccessoriesResponseExpanded;
   export let items: ItemType[];
@@ -44,8 +45,9 @@
   };
 
   $: clamGridZoomLevel(gridZoomLevel);
-  1;
 </script>
+
+<!-- Sort buttons -->
 
 <ul
   class="h-auto grid gap-4"

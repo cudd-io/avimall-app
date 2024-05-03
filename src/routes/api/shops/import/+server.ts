@@ -34,6 +34,31 @@ export const GET = async ({ locals, url, fetch }) => {
   );
 };
 
+export const DELETE = async ({ locals, request }) => {
+  if (!locals.user) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+    });
+  }
+
+  const { pb }: { pb: PocketBase } = locals;
+  const url = new URL(request.url);
+  const shop_id = url.searchParams.get('shop_id');
+  if (!shop_id) {
+    return new Response('Missing required parameters: shop_id', {
+      status: 400,
+    });
+  }
+
+  try {
+    await pb.collection('shops').delete(shop_id);
+    return new Response(JSON.stringify({ success: true }, null, 2), { status: 200 });
+  } catch (error: any) {
+    console.error(`Error: ${error.message}`);
+    return new Response(JSON.stringify(error, null, 2), { status: 400 });
+  }
+};
+
 type ShopItem = {
   id: number;
   category: number;

@@ -96,6 +96,31 @@ export const GET = async ({ locals, request, fetch }) => {
   }
 };
 
+export const DELETE = async ({ locals, request }) => {
+  if (!locals.user) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+    });
+  }
+
+  const { pb }: { pb: PocketBase } = locals;
+  const url = new URL(request.url);
+  const avatar_id = url.searchParams.get('avatar_id');
+  if (!avatar_id) {
+    return new Response('Missing required parameters: avatar_id', {
+      status: 400,
+    });
+  }
+
+  try {
+    await pb.collection('avatars').delete(avatar_id);
+    return new Response(JSON.stringify({ success: true }, null, 2), { status: 200 });
+  } catch (error: any) {
+    console.error(`Error: ${error.message}`);
+    return new Response(JSON.stringify(error, null, 2), { status: 400 });
+  }
+};
+
 const getOrCreateShop = async (pb: PocketBase, boothData: BoothItemApiResponse) => {
   try {
     const shop = await pb

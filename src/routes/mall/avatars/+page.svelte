@@ -6,6 +6,7 @@
   import { registerBreadcrumbs } from '$lib/context/breadcrumbs-context';
   import { fade } from 'svelte/transition';
   import ItemsGrid from '$lib/components/layout/mall/ItemsGrid.svelte';
+  import Json from '$lib/components/ui/Json.svelte';
 
   export let data;
 
@@ -50,5 +51,7 @@
     <ItemsGrid items={avatars.items} />
   </section>
 {/key}
+
+<Json value={avatars} />
 
 <Pagination class="card-glass" currentPage={page} {perPage} {totalPages} />
